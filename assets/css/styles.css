@@ -1,0 +1,56 @@
+/* Estilos para las fuentes */
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../fonts/Quicksand-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../fonts/Quicksand-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../fonts/Quicksand-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: light;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../fonts/Quicksand-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: medium;
+}
+
+/* Estilos para las fuentes */
+
+
+/* Estilos para los elementos */
+
+body{
+    margin: 0;
+    background-color: #FFFF;
+    font-family: Quicksand, sans-serif;
+    padding: 0;
+}
+
+header{
+    background-color: #7B5037;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    margin: 0;
+}
+
+/* Estilos para los elementos */
+
+
+/* Estilos para los login */
+
+/* Estilos para los login */
