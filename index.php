@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arsus</title>
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
-    <script src="https://kit.fontawesome.com/43cf0727bb.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header>
         <div class="headerBox">
-            <h1 class="headerTittle">ARSUS</h1>
-            
+            <h1 class="headerTittle">Te amo mi amor</h1>
+
         </div>
     </header>
+
+    <script src="/assets/js/crud.js?x=1"></script>
 </body>
 
 </html>

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARSUS - LOGIN</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
-    <script src="https://kit.fontawesome.com/43cf0727bb.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
