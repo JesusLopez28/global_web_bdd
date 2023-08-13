@@ -8,8 +8,9 @@ CREATE TABLE
         name VARCHAR(255) COMMENT 'Nombre',
         last_name VARCHAR(255) COMMENT 'Apellido',
         email VARCHAR(255) UNIQUE COMMENT 'Correo',
+        phone VARCHAR(255) COMMENT 'Telefono',
         password VARCHAR(255) COMMENT 'Contrasena',
-        role ENUM('cliente', 'administrador') COMMENT 'Rol'
+        role ENUM('cliente', 'administrador') DEFAULT 'cliente' COMMENT 'Rol'
     );
 
 CREATE TABLE
@@ -56,7 +57,7 @@ CREATE TABLE
         id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID',
         user_id INT COMMENT 'ID Usuario',
         order_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha',
-        status ENUM('confirmado', 'cancelado') COMMENT 'Estatus',
+        status ENUM('confirmado', 'cancelado') DEFAULT 'confirmado' COMMENT 'Estatus',
         total DECIMAL(10, 2) COMMENT 'Total',
         FOREIGN KEY (user_id) REFERENCES users(ID)
     );

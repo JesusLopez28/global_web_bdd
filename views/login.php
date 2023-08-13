@@ -13,15 +13,23 @@
     <div class="login-container">
         <img src="../assets/images/x.png" class="avatar" alt="">
         <h1>Iniciar Sesión</h1>
-        <form action="#" method="post">
-            <input type="text" class="login-input" name="username" placeholder="Usuario" required>
-            <input type="password" class="login-input" name="password" placeholder="Contraseña" required>
+        <form method="post">
+            <label>Email:</label>
+            <input type="text" class="login-input" name="email " placeholder="Email" required>
+            <label>Contraseña:</label>
+            <div class="login-password">
+                <input type="password" class="login-input password" name="password" id="password" placeholder="Contraseña" required>
+                <span id="showPasswordButton" onclick="showPassword('password', 'showPasswordButton')">
+                    <img src="../assets/icons/visible.png" alt="" class="icon">
+                </span>
+            </div>
             <button type="submit" class="login-btn">Iniciar Sesión</button>
             <div class="login-a">
-                <a href="#">Registrate</a>
+                <a href="register.php">Registrate</a>
             </div>
         </form>
     </div>
+    <script src="../assets/js/crud.js?x=1"></script>
 </body>
 
 </html>
