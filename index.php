@@ -10,7 +10,7 @@
 
 <body>
 
-
+    <a href="views/login.php">Login</a>
     <script src="assets/js/crud.js?x=1"></script>
 </body>
 

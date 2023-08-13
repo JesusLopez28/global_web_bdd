@@ -10,3 +10,5 @@ function showPassword(input, button) {
         showPasswordButton.innerHTML = '<img src="../assets/icons/visible.png" alt="" class="icon">';
     }
 }
+
+

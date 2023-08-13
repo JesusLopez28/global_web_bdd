@@ -12,7 +12,7 @@ class Connector
     {
         $servername = "127.0.0.1";
         $username = "root";
-        $dbname = "arsus";
+        $dbname = "ansus";
         $password = "";
 
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -41,7 +41,8 @@ class Connector
     }
 }
 $conn = new Connector();
-$files = ["authentication.php", "crud.php"];
+include "../models/crud.php";
+$files = ["authentication.php", "crud.php", "user.php"];
 foreach ($files as $file) {
     if ($file != "." && $file != ".." && $file != "crud.php") {
         include "../models/" . $file;

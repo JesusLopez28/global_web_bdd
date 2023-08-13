@@ -8,15 +8,20 @@ class Authentication extends Crud
         $this->table = "auth_token";
         $this->conn = $conn;
     }
-    function deleteOldTokens($id)
+    function deleteOldTokens($email)
     {
-        $sql = "delete from auth_token where user_id = '$id' and creation_date < NOW() - INTERVAL 1 DAY";
+        $sql = "delete from auth_token where user_id = (select id from users where email = '$email') and creation_date < NOW() - INTERVAL 1 DAY";
+        if (DEBUG) echo $sql;
         $this->conn->query($sql);
     }
-    function createToken($id)
+    function createToken($email)
     {
-        $this->deleteOldTokens($id);
+        $this->deleteOldTokens($email);
         $token = $this->generateRandomString();
+        $sql = "select id from users where email = '$email'";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_assoc();
+        $id = $row["id"];
         $this->create(["user_id" => $id, "token" => $token]);
         return $token;
     }

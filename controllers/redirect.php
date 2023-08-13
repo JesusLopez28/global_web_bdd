@@ -13,3 +13,14 @@ date_default_timezone_set("America/Mexico_City");
 setlocale(LC_TIME, 'es_ES.UTF-8');
 
 include 'core.php';
+switch ($endpoint) {
+
+    case 'user.login':
+        $user = new User($conn);
+        response($user->login($request->email, $request->password));
+        break;
+
+    default:
+        response(["status" => "BAD", "message" => "El endpoint que consultas no existe."]);
+        break;
+}

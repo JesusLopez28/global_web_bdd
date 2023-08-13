@@ -13,9 +13,9 @@
     <div class="login-container">
         <img src="../assets/images/x.png" class="avatar" alt="">
         <h1>Iniciar Sesión</h1>
-        <form method="post">
+        <form id="login-form">
             <label>Email:</label>
-            <input type="text" class="login-input" name="email " placeholder="Email" required>
+            <input type="text" class="login-input" name="email" id="email" placeholder="Email" required>
             <label>Contraseña:</label>
             <div class="login-password">
                 <input type="password" class="login-input password" name="password" id="password" placeholder="Contraseña" required>
@@ -30,6 +30,36 @@
         </form>
     </div>
     <script src="../assets/js/crud.js?x=1"></script>
+    <script type="text/javascript">
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const requestData = {
+                email: email,
+                password: password
+            };
+
+            const fetchOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            };
+
+            fetch('http://127.0.0.1/controllers/redirect.php?endpoint=user.login', fetchOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 </body>
 
 </html>
