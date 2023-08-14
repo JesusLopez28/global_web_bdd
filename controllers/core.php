@@ -77,7 +77,7 @@ $endpoint = "user.login";
 if (isset($_GET["endpoint"])) {
     $endpoint = $_GET["endpoint"];
 }
-$open_endpoints = ["user.login"];
+$open_endpoints = ["user.login", "user.register"];
 
 if (!in_array($endpoint, $open_endpoints)) {
     $authentication = new Authentication($conn);

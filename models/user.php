@@ -34,4 +34,11 @@ class User extends Crud
             ];
         }
     }
+
+    function register($data)
+    {
+        $object = new Crud($this->conn, $this->table);
+        $result = $object->create($data);
+        return $result;
+    }
 }

@@ -28,17 +28,21 @@ class Crud
         $fields = rtrim($fields, ", ");
         $values = rtrim($values, ", ");
         $sql = "INSERT INTO $table ($fields) VALUES ($values)";
-        if ($this->conn->query($sql) !== FALSE) {
-            return ["status" => "OK", "message" => "$table creado correctamente"];
-        } else {
-            $error = $this->conn->error;
-            if (strpos($error, "Duplicate entry") !== FALSE) {
-                return ["status" => "DUPLICATED", "message" => "Registro duplicado"];
+        try {
+            if ($this->conn->query($sql) !== FALSE) {
+                return ["status" => "OK", "message" => "$table creado correctamente"];
             } else {
-                return ["status" => "BAD", "message" => "No se puede crear $table -> $error"];
+                return ["status" => "BAD", "message" => "No se puede crear $table -> {$this->conn->error}"];
+            }
+        } catch (mysqli_sql_exception $ex) {
+            if (strpos($ex->getMessage(), "Duplicate entry") !== FALSE) {
+                return ["status" => "BAD", "message" => "Registro duplicado"];
+            } else {
+                return ["status" => "BAD", "message" => "Error en la base de datos: " . $ex->getMessage()];
             }
         }
     }
+
 
     function delete($where = "false")
     {

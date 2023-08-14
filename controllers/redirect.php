@@ -20,6 +20,26 @@ switch ($endpoint) {
         response($user->login($request->email, $request->password));
         break;
 
+    case 'user.register':
+        $user = new User($conn);
+        response($user->register($request->data));
+        break;
+
+    case 'object.create':
+        $crud = new Crud($conn, $request->object);
+        response($crud->create($request->data));
+        break;
+
+    case 'object.update':
+        $crud = new Crud($conn, $request->object);
+        response($crud->update($request->data, $request->where));
+        break;
+
+    case 'object.delete':
+        $crud = new Crud($conn, $request->object);
+        response($crud->delete($request->where));
+        break;
+
     default:
         response(["status" => "BAD", "message" => "El endpoint que consultas no existe."]);
         break;

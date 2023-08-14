@@ -7,11 +7,13 @@
     <title>ANSUS - LOGIN</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/login.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/alert.css">
+    <link rel="icon" href="../assets/images/ansusIcon.png" type="image/x-icon">
 </head>
 
 <body>
     <div class="login-container">
-        <img src="../assets/images/x.png" class="avatar" alt="">
+        <img src="../assets/images/users.png" class="avatar" alt="">
         <h1>Iniciar Sesión</h1>
         <form id="login-form">
             <label>Email:</label>
@@ -54,6 +56,11 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    if (data.code == "OK") {
+                        window.parent.alertMessage("success", "¡Buen trabajo!", data.message);
+                    } else {
+                        window.parent.alertMessage("error", "¡Lo sentimos!", data.message);
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
