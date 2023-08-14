@@ -43,7 +43,6 @@ class Crud
         }
     }
 
-
     function delete($where = "false")
     {
         $table = $this->table;
