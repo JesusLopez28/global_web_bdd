@@ -18,7 +18,7 @@
         <div class="icon__menu">
             <img src="assets/icons/menu.png" id="btn_open" alt="Menú">
         </div>
-        <div class="header__container">
+        <div class="header__container" id="header">
             <div class="search__container">
                 <input type="text" class="search-input" name="search" id="search" placeholder="Buscar..." required>
                 <span>
