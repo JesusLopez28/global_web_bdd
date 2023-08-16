@@ -22,7 +22,7 @@
             <div class="search__container">
                 <input type="text" class="search-input" name="search" id="search" placeholder="Buscar..." required>
                 <span>
-                    <img src="assets/icons/lupa.png" alt="" class="icon">
+                    <img src="assets/icons/lupa.png" alt="" class="icon" onclick="window.location.href = 'views/login.php';">
                 </span>
             </div>
         </div>
@@ -64,12 +64,26 @@
 
     <main>
         <h1>Bienvenido a Ansus</h1><br>
-        <p>Mueblería para tu hogar.</p> <br>
+        <nav>
+            <ul class="menu">
+                <li><a href="views/login.php">Sillas</a></li>
+                <li><a href="views/login.php">Mesas</a></li>
+                <li><a href="views/login.php">Sofás</a></li>
+                <li><a href="views/login.php">Camas</a></li>
+                <li><a href="views/login.php">Colchones</a></li>
+                <li><a href="views/login.php">Accesorios</a></li>
+            </ul>
+        </nav>
     </main>
 
     <div class="body__Page">
-        <div class="cover" style="background-image: url(assets/images/fondo.jpg);"></div>
         <div class="container__article">
+            <div class="box__article">
+                <img src="assets/images/productsIndex/sillon.png" alt="">
+                <h4>Silla blanca</h4>
+                <p>Precio: $1,500</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
         </div>
     </div>
     </div>

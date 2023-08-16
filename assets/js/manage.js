@@ -16,7 +16,8 @@ if (token) {
             var homeItem = menu.find(item => item.text === "Home");
 
             if (homeItem) {
-                if (window.location.pathname !== '/views/' + homeItem.location) {
+                var validPaths = ['/index.php', '/views/login.php', '/views/register.php', '/'];
+                if (validPaths.includes(window.location.pathname)) {
                     window.location.href = '/views/' + homeItem.location;
                 } else {
                     var html = '';

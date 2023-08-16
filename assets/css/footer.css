@@ -1,37 +1,54 @@
-:root{
-    --color-esqueleto:#c1b59f;
+:root {
+    --color-esqueleto: #c1b59f;
 }
 
-.cover{
+.cover {
     width: 100%;
     height: 300px;
     background: var(--color-esqueleto);
 }
 
-.container__article{
-    max-width: 1000px;
+.container__article {
+    max-width: 2000px;
     padding: 0px 20px;
     margin: auto;
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    font-size: large;
 }
 
-.container__article .box__article{
-    width: 200px;
-    height: 250px;
+.container__article .box__article {
+    width: 300px;
+    height: 300px;
     background: var(--color-esqueleto);
     margin: 20px;
+    margin-right: 70px;
+    text-align: center;
 }
 
-footer{
+.container__article img {
+    margin-top: 30px;
+    width: 150px;
+    height: 150px;
+}
+
+.container__article p {
+    margin-bottom: 20px;
+}
+
+.container__article a {
+    color: #fff;
+}
+
+footer {
     width: 100%;
     background-color: #c1b59f;
     background-size: cover;
 }
 
-.container__footer{
+.container__footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -40,17 +57,17 @@ footer{
     margin-top: 100px;
 }
 
-.box__footer{
+.box__footer {
     display: flex;
     flex-direction: column;
     padding: 40px;
 }
 
-.box__footer .logo img{
+.box__footer .logo img {
     width: 150px;
 }
 
-.box__footer .terms{
+.box__footer .terms {
     max-width: 350px;
     margin-top: 20px;
     font-weight: 500;
@@ -58,39 +75,39 @@ footer{
     font-size: 18px;
 }
 
-.box__footer h2{
+.box__footer h2 {
     margin-bottom: 30px;
     color: #343434;
     font-weight: 700;
 }
 
-.box__footer a{
+.box__footer a {
     margin-top: 10px;
     color: #7a7a7a;
     font-weight: 600;
 }
 
-.box__footer a:hover{
+.box__footer a:hover {
     opacity: 0.8;
 }
 
-.box__footer a .fab{
+.box__footer a .fab {
     font-size: 20px;
 }
 
-.box__copyright{
+.box__copyright {
     max-width: 1200px;
     margin: auto;
     text-align: center;
     padding: 0px 40px;
 }
 
-.box__copyright p{
+.box__copyright p {
     margin-top: 20px;
     color: #7a7a7a;
 }
 
-.box__copyright hr{
+.box__copyright hr {
     border: none;
     height: 1px;
     background-color: #7a7a7a;

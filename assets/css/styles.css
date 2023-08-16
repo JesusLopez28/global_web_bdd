@@ -235,3 +235,50 @@ header .header__container {
     outline: none;
   }
 }
+
+
+nav {
+  background-color: #9d8161;
+  color: #5f5a4d;
+  font-size: large !important;
+  font-weight: bold;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 0;
+}
+
+.menu li {
+  padding: 5px 10px;
+}
+
+.menu li:hover {
+  opacity: 0.8;
+}
+
+.menu .titulo {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu li {
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+  }
+}
