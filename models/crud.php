@@ -98,6 +98,12 @@ class Crud
                 "text" => "Carrito",
                 "location" => "shoppingCar.php",
             ]);
+
+            array_push($menu, [
+                "img" => "../assets/icons/pedidos.png",
+                "text" => "Pedidos",
+                "location" => "orders.php",
+            ]);
         }
 
 

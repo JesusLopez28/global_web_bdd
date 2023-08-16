@@ -44,8 +44,10 @@
             </div>
         </form>
     </div>
+    <script src="../assets/js/manage.js?x=1"></script>
     <script src="../assets/js/crud.js?x=1"></script>
-    <script src="../assets/js/general.js?x=<?= rand(1, 10000000000000000) ?>"></script>
+    <script src="../assets/js/general.js?x=1"></script>
+    <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
         document.getElementById('register-form').addEventListener('submit', function(event) {
             event.preventDefault();

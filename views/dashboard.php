@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANSUS</title>
+    <title>ANSUS - DASHBOARD</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/alert.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/table.css">
     <link rel="icon" href="../assets/images/ansusIcon.png" type="image/x-icon">
 </head>
 
@@ -44,8 +45,8 @@
     </main>
 
     <div class="body__Page">
-        <div class="cover" style="background-image: url(../assets/images/fondo.jpg);"></div>
         <div class="container__article">
+
         </div>
     </div>
     </div>
@@ -90,7 +91,7 @@
     </footer>
     <script src="../assets/js/manage.js?x=1"></script>
     <script src="../assets/js/crud.js?x=1"></script>
-    <script src="../assets/js/general.js?x=<?= rand(1, 10000000000000000) ?>"></script>
+    <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
 

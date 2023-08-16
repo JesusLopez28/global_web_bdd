@@ -41,9 +41,3 @@ function getIcon(icon) {
             return 'ℹ️';
     }
 }
-
-function sessionDestroy() {
-    sessionStorage.clear();
-    console.log("SESION VENCIDA");
-    window.location.href = 'http://127.0.0.1/index.php';
-}

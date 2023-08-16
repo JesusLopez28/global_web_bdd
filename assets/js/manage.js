@@ -21,7 +21,17 @@ if (token) {
                 } else {
                     var html = '';
                     for (var i = 0; i < menu.length; i++) {
-                        html += `
+                        if (menu[i].text === "Salir") {
+                            html += `
+                            <a href="${menu[i].location}">
+                            <div class="option" onclick="sessionDestroy()">
+                            <img src="${menu[i].img}" alt="${menu[i].text}">
+                                    <h4>${menu[i].text}</h4>
+                                </div>
+                            </a>
+                        `;
+                        } else {
+                            html += `
                             <a href="${menu[i].location}">
                                 <div class="option">
                                     <img src="${menu[i].img}" alt="${menu[i].text}">
@@ -29,6 +39,7 @@ if (token) {
                                 </div>
                             </a>
                         `;
+                        }
                     }
                     document.getElementById("main_menu").innerHTML = html;
                 }
@@ -37,4 +48,10 @@ if (token) {
         .catch(error => {
             console.error('Error:', error);
         });
+}
+
+function sessionDestroy() {
+    sessionStorage.clear();
+    console.log("SESION VENCIDA");
+    window.location.href = '/index.php';
 }
