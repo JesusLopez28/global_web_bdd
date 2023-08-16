@@ -5,24 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANSUS</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/fonts.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/footer.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/alert.css">
-    <link rel="icon" href="assets/images/ansusIcon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/alert.css">
+    <link rel="icon" href="../assets/images/ansusIcon.png" type="image/x-icon">
 </head>
 
 <body id="body">
 
     <header>
         <div class="icon__menu">
-            <img src="assets/icons/menu.png" id="btn_open" alt="Menú">
+            <img src="../assets/icons/menu.png" id="btn_open" alt="Menú">
         </div>
         <div class="header__container" id="header">
             <div class="search__container">
                 <input type="text" class="search-input" name="search" id="search" placeholder="Buscar..." required>
                 <span>
-                    <img src="assets/icons/lupa.png" alt="" class="icon">
+                    <img src="../assets/icons/lupa.png" alt="" class="icon">
                 </span>
             </div>
         </div>
@@ -30,45 +30,21 @@
 
     <div class="menu__side" id="menu_side">
         <div class="name__page">
-            <img src="assets/icons/ansus.png" alt="Ansus">
+            <img src="../assets/icons/ansus.png" alt="Ansus">
             <h4>ANSUS</h4>
         </div>
 
         <div class="options__menu" id="main_menu">
-            <a href="index.php" class="selected">
-                <div class="option" id="home">
-                    <img src="assets/icons/home.png" alt="Home">
-                    <h4>Home</h4>
-                </div>
-            </a>
-            <a href="views/login.php">
-                <div class="option" id="Car">
-                    <img src="assets/icons/carrito.png" alt="carrito">
-                    <h4>Carrito</h4>
-                </div>
-            </a>
-            <a href="views/login.php" id="Login">
-                <div class="option">
-                    <img src="assets/icons/login.png" alt="Login">
-                    <h4>Login</h4>
-                </div>
-            </a>
-            <a href="views/register.php" id="Register">
-                <div class="option">
-                    <img src="assets/icons/register.png" alt="Registrate">
-                    <h4>Registrate</h4>
-                </div>
-            </a>
+
         </div>
     </div>
 
-    <main>
-        <h1>Bienvenido a Ansus</h1><br>
-        <p>Mueblería para tu hogar.</p> <br>
+    <main id="main">
+
     </main>
 
     <div class="body__Page">
-        <div class="cover" style="background-image: url(assets/images/fondo.jpg);"></div>
+        <div class="cover" style="background-image: url(../assets/images/fondo.jpg);"></div>
         <div class="container__article">
         </div>
     </div>
@@ -112,10 +88,10 @@
             <p>Todos los derechos reservados © 2023 <b>Ansus</b></p>
         </div>
     </footer>
-    <script src="assets/js/manage.js?x=1"></script>
-    <script src="assets/js/crud.js?x=1"></script>
-    <script src="assets/js/general.js?x=<?= rand(1, 10000000000000000) ?>"></script>
-    <script src="assets/js/lateral.js"></script>
+    <script src="../assets/js/manage.js?x=1"></script>
+    <script src="../assets/js/crud.js?x=1"></script>
+    <script src="../assets/js/general.js?x=<?= rand(1, 10000000000000000) ?>"></script>
+    <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
 
     </script>

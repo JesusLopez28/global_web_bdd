@@ -40,6 +40,11 @@ switch ($endpoint) {
         response($crud->delete($request->where));
         break;
 
+    case 'user.getMenu':
+        $crud = new Crud($conn, $request->object);
+        response($crud->getMenu());
+        break;
+
     default:
         response(["status" => "BAD", "message" => "El endpoint que consultas no existe."]);
         break;

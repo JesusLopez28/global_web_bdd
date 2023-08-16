@@ -81,4 +81,52 @@ class Crud
             return ["status" => "BAD", "message" => "No fue posible actualizar $table -> $error"];
         }
     }
+
+    function getMenu()
+    {
+        $menu = [];
+
+        if (USER["role"] == "cliente") {
+            array_push($menu, [
+                "img" => "../assets/icons/home.png",
+                "text" => "Home",
+                "location" => "dashboard.php",
+            ]);
+
+            array_push($menu, [
+                "img" => "../assets/icons/carrito.png",
+                "text" => "Carrito",
+                "location" => "shoppingCar.php",
+            ]);
+        }
+
+
+        if (USER["role"] == "administrador") {
+            array_push($menu, [
+                "img" => "../assets/icons/home.png",
+                "text" => "Home",
+                "location" => "admin.php",
+            ]);
+
+            array_push($menu, [
+                "img" => "../assets/icons/gUser.png",
+                "text" => "Gestionar Usuarios",
+                "location" => "manageUsers.php",
+            ]);
+
+            array_push($menu, [
+                "img" => "../assets/icons/gProducts.png",
+                "text" => "Gestionar Productos",
+                "location" => "manageProducts.php",
+            ]);
+        }
+
+        array_push($menu, [
+            "img" => "../assets/icons/cerrar.png",
+            "text" => "Salir",
+            "location" => "#",
+        ]);
+
+        return $menu;
+    }
 }

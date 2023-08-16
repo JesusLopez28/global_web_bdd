@@ -32,6 +32,7 @@
         </form>
     </div>
     <script src="../assets/js/crud.js?x=1"></script>
+    <script src="../assets/js/general.js?x=<?= rand(1, 10000000000000000) ?>"></script>
     <script type="text/javascript">
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -58,11 +59,16 @@
                     console.log(data);
                     if (data.code == "OK") {
                         window.parent.alertMessage("success", "¡Buen trabajo!", data.message);
+                        sessionStorage.token = data.token;
+                        sessionStorage.email = email;
+                        window.location.href = "../index.php";
                     } else {
+                        sessionStorage.clear();
                         window.parent.alertMessage("error", "¡Lo sentimos!", data.message);
                     }
                 })
                 .catch(error => {
+                    sessionStorage.clear();
                     console.error('Error:', error);
                 });
         });
