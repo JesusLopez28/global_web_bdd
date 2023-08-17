@@ -62,6 +62,7 @@
                     if (data.code == "OK") {
                         window.parent.alertMessage("success", "¡Buen trabajo!", data.message);
                         sessionStorage.token = data.token;
+                        sessionStorage.userId = data.userId;
                         sessionStorage.email = email;
                         window.location.href = "../index.php";
                     } else {

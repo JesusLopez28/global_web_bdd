@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANSUS - DASHBOARD</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/modal.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/alert.css">
@@ -22,7 +23,7 @@
         <div class="header__container" id="header">
             <div class="search__container">
                 <input type="text" class="search-input" name="search" id="search" placeholder="Buscar..." required>
-                <span>
+                <span id="search_button">
                     <img src="../assets/icons/lupa.png" alt="" class="icon">
                 </span>
             </div>
@@ -45,7 +46,7 @@
     </main>
 
     <div class="body__Page">
-        <div class="container__article">
+        <div class="container__article" id="articles">
 
         </div>
     </div>
@@ -94,7 +95,7 @@
     <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
-
+        displayProducts("products", "true", 0);
     </script>
 </body>
 

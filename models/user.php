@@ -22,10 +22,13 @@ class User extends Crud
         if (sizeof($r) > 0) {
             $authentication = new Authentication($this->conn);
             $token = $authentication->createToken($email);
+            $userData = $authentication->getUserDataByToken($token);
+            $userId = $userData["id"];
             return [
                 "code" => "OK",
                 "message" => "Autenticación correcta.",
-                "token" => "$token"
+                "token" => $token,
+                "userId" => $userId
             ];
         } else {
             return [

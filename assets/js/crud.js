@@ -68,7 +68,7 @@ function create(object, id_form) {
 
 var fields_object = [];
 
-function getCrud(object, condition = "true") {
+function getCrud(object, condition = "true", admin = "false") {
     const url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.getInfo';
 
     const requestData = {
@@ -98,7 +98,7 @@ function getCrud(object, condition = "true") {
             }
 
             primary_key = response.primary;
-            getRows(object, condition, 0);
+            getRows(object, condition, 0, admin);
             getPagination(object);
         })
         .catch(error => {
@@ -187,18 +187,28 @@ function changeActive(id) {
     }
 }
 
-function getRows(object, condition, page) {
+function getRows(object, condition, page, admin = "false") {
     var where_condition = "";
-    if (condition !== "true") {
-        fields_object.forEach(function (field) {
-            if (field !== "id") {
-                where_condition += field + " like '%" + condition + "%' or ";
-            }
-        });
+    if (admin === "false" && (object === "orders" || object === "shopping_cart") ) {
+        var userIdCondition = "user_id = " + sessionStorage.userId;
 
-        where_condition = where_condition.substring(0, where_condition.length - 3);
+        if (where_condition === "") {
+            where_condition = userIdCondition;
+        } else {
+            where_condition = "(" + where_condition + ") AND " + userIdCondition;
+        }
     } else {
-        where_condition = condition;
+        if (condition !== "true") {
+            fields_object.forEach(function (field) {
+                if (field !== "id") {
+                    where_condition += field + " like '%" + condition + "%' or ";
+                }
+            });
+
+            where_condition = where_condition.substring(0, where_condition.length - 3);
+        } else {
+            where_condition = condition;
+        }
     }
 
     var requestData = {
@@ -385,3 +395,131 @@ function update(object, id_form, condition, value) {
     return false;
 }
 
+function displayProducts(object, condition, page) {
+    var where_condition = "";
+    if (condition !== "true") {
+        fields_object.forEach(function (field) {
+            if (field !== "id") {
+                where_condition += field + " like '%" + condition + "%' or ";
+            }
+        });
+
+        where_condition = where_condition.substring(0, where_condition.length - 3);
+    } else {
+        where_condition = condition;
+    }
+
+    var requestData = {
+        "object": object,
+        "fields": "*",
+        "where": "(" + where_condition + ")",
+        "page": page,
+        "order": "order by id asc"
+    };
+
+    fetch('http://127.0.0.1/controllers/redirect.php?endpoint=object.getRows', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (response) {
+            console.log("RESPUESTA GET ROWS: ");
+            console.log(response);
+            var articlesContainer = document.getElementById("articles");
+            articlesContainer.innerHTML = "";
+
+            response.forEach(function (value) {
+                var article = document.createElement("div");
+                article.className = "box__article";
+
+                var image = document.createElement("img");
+                image.src = "../assets/images/products/" + value.image;
+                image.alt = value.name;
+
+                var productName = document.createElement("h4");
+                productName.textContent = value.name;
+
+                var price = document.createElement("p");
+                price.textContent = "Precio: $" + value.price;
+
+                var category = document.createElement("p");
+                category.textContent = "ID: " + value.id;
+
+                var stock = document.createElement("p");
+                stock.textContent = "Stock: " + value.stock;
+
+                var quantityInput = document.createElement("input");
+                quantityInput.type = "number";
+                quantityInput.min = "1";
+                quantityInput.value = "1";
+                quantityInput.placeholder = "Cantidad";
+
+                var addToCartButton = document.createElement("button");
+                addToCartButton.textContent = "Agregar al carrito";
+                addToCartButton.classList.add("button");
+                addToCartButton.onclick = function () {
+                    addToCart(value, quantityInput);
+                };
+
+                article.appendChild(image);
+                article.appendChild(productName);
+                article.appendChild(price);
+                article.appendChild(category);
+                article.appendChild(stock);
+                article.appendChild(quantityInput);
+                article.appendChild(addToCartButton);
+
+                articlesContainer.appendChild(article);
+            });
+        })
+        .catch(function (error) {
+            console.error('Error fetching rows data:', error);
+            var articlesContainer = document.getElementById("articles");
+            articlesContainer.innerHTML = "";
+        });
+}
+
+function addToCart(product, quantityInput) {
+    console.log("ENTRO A LA FUNCION ADD TO CART");
+    var url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.create';
+
+    var cartData = {
+        "object": "shopping_cart",
+        "data": {
+            "user_id": sessionStorage.userId,
+            "product_id": product.id,
+            "quantity": parseInt(quantityInput.value),
+            "subtotal": product.price * parseInt(quantityInput.value)
+        }
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: JSON.stringify(cartData)
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            if (response.status == "OK") {
+                window.parent.alertMessage("success", "¡Producto agregado al carrito!", response.message);
+            } else {
+                window.parent.alertMessage("error", "¡Lo sentimos!", response.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.parent.alertMessage("error", "¡Lo sentimos!", error);
+        });
+
+    return false;
+}
