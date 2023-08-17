@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANSUS - GESTOR USUARIOS</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/modal.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/alert.css">
@@ -45,10 +46,34 @@
     </main>
 
     <div class="body__Page">
-        <div class="container__article">
 
-        </div>
     </div>
+
+    <button id="openModalBtn" onclick="openModal();" class="openModalBtn">Agregar Usuario</button>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Agregar/Editar Usuario</h2>
+            <form id="userForm" onsubmit='return create("users", "userForm")' enctype="multipart/form-data">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required><br>
+                <label for="last_name">Apellido:</label>
+                <input type="text" id="last_name" name="last_name" required><br>
+                <label for="email">Correo:</label>
+                <input type="email" id="email" name="email" required><br>
+                <label for="phone">Teléfono:</label>
+                <input type="tel" id="phone" name="phone"><br>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required><br>
+                <label for="role">Rol:</label>
+                <select id="role" name="role">
+                    <option value="cliente">Cliente</option>
+                    <option value="administrador">Administrador</option>
+                </select><br>
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
     </div>
 
     <footer>
@@ -93,8 +118,11 @@
     <script src="../assets/js/crud.js?x=1"></script>
     <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
-    <script type="text/javascript">
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        });
     </script>
 </body>
 

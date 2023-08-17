@@ -177,7 +177,7 @@ header .header__container {
 }
 
 .input_move {
-    width: 250px !important;
+  width: 250px !important;
 }
 
 @media screen and (max-width: 760px) {

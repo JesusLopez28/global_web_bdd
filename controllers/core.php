@@ -42,7 +42,7 @@ class Connector
 }
 $conn = new Connector();
 include "../models/crud.php";
-$files = ["authentication.php", "crud.php", "user.php"];
+$files = ["authentication.php", "crud.php", "user.php", "product.php"];
 foreach ($files as $file) {
     if ($file != "." && $file != ".." && $file != "crud.php") {
         include "../models/" . $file;

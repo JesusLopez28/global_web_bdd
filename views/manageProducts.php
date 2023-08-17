@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANSUS - GESTOR PRODUCTOS</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/modal.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/alert.css">
@@ -45,12 +46,39 @@
     </main>
 
     <div class="body__Page">
-        <div class="container__article">
 
+    </div>
+
+    <button id="openModalBtn" onclick="openModal();" class="openModalBtn">Agregar Producto</button>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Agregar/Editar Producto</h2>
+            <form id="productForm" onsubmit='return create("products", "productForm")' enctype="multipart/form-data">
+                <label for="productName">Producto:</label>
+                <input type="text" id="productName" name="name" required><br>
+                <label for="productPrice">Precio:</label>
+                <input type="number" step="0.01" id="productPrice" name="price" required><br>
+                <label for="productCategory">Categoría:</label>
+                <select id="productCategory" name="category_id">
+                    <option value="1">Sofás</option>
+                    <option value="2">Mesas</option>
+                    <option value="3">Sillas</option>
+                    <option value="4">Camas</option>
+                    <option value="5">Escritorios</option>
+                    <option value="6">Colchones</option>
+                    <option value="7">Cómodas</option>
+                    <option value="8">Comedores</option>
+                </select><br>
+                <label for="productStock">Stock:</label>
+                <input type="number" id="productStock" name="stock"><br>
+                <label for="productImage">Imagen:</label>
+                <input type="file" id="productImage" name="image" accept=".png"><br>
+                <button type="submit">Agregar</button>
+            </form>
         </div>
     </div>
-    </div>
-
     <footer>
         <div class="container__footer">
             <div class="box__footer">
@@ -93,8 +121,11 @@
     <script src="../assets/js/crud.js?x=1"></script>
     <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
-    <script type="text/javascript">
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        });
     </script>
 </body>
 
