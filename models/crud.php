@@ -146,10 +146,10 @@ class Crud
         $primary = "[NO_PRIMARY]";
         while ($row = $result->fetch_assoc()) {
             if ($row["Key"] == "PRI") $primary = $row["Field"];
-            $comments = json_decode($row["Comment"]);
+            $comments = $row["Comment"];
             $r = [
                 "field" => $row["Field"],
-                "label" => $comments->label
+                "label" => $comments
             ];
             array_push($data, $r);
         }
@@ -197,8 +197,7 @@ class Crud
             "total_pages" => ceil($data[0]["total_rows"] / ROWS_PER_PAGE)
         ];
     }
-
-
+    
     function getIndexProducts()
     {
         $table = 'products';

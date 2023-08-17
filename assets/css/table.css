@@ -8,7 +8,8 @@ table {
     border-spacing: 0;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
@@ -19,8 +20,66 @@ th {
 }
 
 @media (max-width: 600px) {
-    table{
+    table {
         display: block;
         overflow-x: auto;
     }
+}
+
+.pagination_rows {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.pagination {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-link {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.page-link:hover {
+    background-color: #f0f0f0;
+    color: #555;
+    border-color: #aaa;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.custom-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-right: 8px;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.edit-button {
+    background-color: #3498db;
+}
+
+.delete-button {
+    background-color: #e74c3c;
 }

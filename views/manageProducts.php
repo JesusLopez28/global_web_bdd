@@ -23,7 +23,7 @@
         <div class="header__container" id="header">
             <div class="search__container">
                 <input type="text" class="search-input" name="search" id="search" placeholder="Buscar..." required>
-                <span>
+                <span id="search_button">
                     <img src="../assets/icons/lupa.png" alt="" class="icon">
                 </span>
             </div>
@@ -44,6 +44,20 @@
     <main id="main">
         <h1>Gestión de Productos</h1><br>
     </main>
+
+    <div class="body__Page">
+        <div class="table-container">
+            <table id="table_crud">
+                <thead>
+                    <tr id="tr-headers"></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="pagination_rows"></div>
+        <ul class="pagination"></ul>
+    </div>
 
     <button id="openModalBtn" onclick="openModal();" class="openModalBtn">Agregar Producto</button>
 
@@ -121,6 +135,18 @@
         document.addEventListener("DOMContentLoaded", function() {
             const modal = document.getElementById("modal");
             modal.style.display = "none";
+        });
+
+        getCrud("products");
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var searchButton = document.getElementById('search_button');
+            var inputSearch = document.getElementById('search');
+
+            searchButton.addEventListener('click', function() {
+                var inputValue = inputSearch.value;
+                getRows('products', inputValue, 0);
+            });
         });
     </script>
 </body>

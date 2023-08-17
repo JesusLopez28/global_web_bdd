@@ -22,7 +22,7 @@
         <div class="header__container" id="header">
             <div class="search__container">
                 <input type="text" class="search-input" name="search" id="search" placeholder="Buscar..." required>
-                <span>
+                <span id="search_button">
                     <img src="../assets/icons/lupa.png" alt="" class="icon">
                 </span>
             </div>
@@ -41,19 +41,20 @@
     </div>
 
     <main id="main">
-
+        <h1>Bienvenido Admin</h1><br>
     </main>
-
     <div class="body__Page">
-        <div class="container__article">
-
-            <div class="table-container">
-
-            
-            </div>
-
+        <div class="table-container">
+            <table id="table_crud">
+                <thead>
+                    <tr id="tr-headers"></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
-    </div>
+
+        <div class="pagination_rows"></div>
+        <ul class="pagination"></ul>
     </div>
 
     <footer>
@@ -99,7 +100,17 @@
     <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
+        getCrud("orders");
 
+        document.addEventListener('DOMContentLoaded', function() {
+            var searchButton = document.getElementById('search_button');
+            var inputSearch = document.getElementById('search');
+
+            searchButton.addEventListener('click', function() {
+                var inputValue = inputSearch.value;
+                getRows('orders', inputValue, 0);
+            });
+        });
     </script>
 </body>
 

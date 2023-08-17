@@ -64,3 +64,221 @@ function create(object, id_form) {
 
     return false;
 }
+
+
+var fields_object = [];
+
+function getCrud(object, condition = "true") {
+    const url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.getInfo';
+
+    const requestData = {
+        object: object
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            var tr_headers = document.querySelector("#table_crud #tr-headers");
+            tr_headers.innerHTML = "";
+            if (object != 'orders') {
+                tr_headers.innerHTML = "<th>Acción</th>";
+            }
+            for (var i = 0; i < response.data.length; i++) {
+                var element = response.data[i];
+                tr_headers.innerHTML += "<th>" + element.label + "</th>";
+                fields_object.push(element.field);
+            }
+
+            primary_key = response.primary;
+            getRows(object, condition, 0);
+            getPagination(object);
+        })
+        .catch(error => {
+            console.error('Error fetching object info:', error);
+            const tbody = document.querySelector("#table_crud tbody");
+            const tr = document.createElement("tr");
+            tbody.appendChild(tr);
+        });
+}
+
+function getPagination(object, currentPage = 0) {
+    const url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.count';
+
+    const requestData = {
+        object: object,
+        where: "true"
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === "OK") {
+                const paginationRows = document.querySelector(".pagination_rows");
+                paginationRows.innerHTML = "Cantidad de registros: " + response.total_rows;
+
+                const pagination = document.querySelector(".pagination");
+                pagination.innerHTML = "";
+
+                const totalPages = parseInt(response.total_pages);
+
+                if (totalPages > 0) {
+                    pagination.innerHTML += '<li class="page-item" id="prevButton"><a class="page-link" href="#" onclick="paginate(\'' + object + '\', ' + (currentPage - 1) + ');">Anterior</a></li>';
+
+                    for (let index = 1; index <= totalPages; index++) {
+                        if (index === currentPage + 1) {
+                            pagination.innerHTML += "<li class='page-item active'><a class='page-link' href='#'>" + index + "</a></li>";
+                        } else {
+                            pagination.innerHTML += "<li class='page-item'><a class='page-link' href='#' onclick='paginate(\"" + object + "\", " + (index - 1) + ");'>" + index + "</a></li>";
+                        }
+                    }
+
+                    pagination.innerHTML += '<li class="page-item" id="nextButton"><a class="page-link" href="#" onclick="paginate(\'' + object + '\', ' + (currentPage + 1) + ');">Siguiente</a></li>';
+                }
+            } else {
+                const paginationRows = document.querySelector(".pagination_rows");
+                paginationRows.innerHTML = "Sin Registros";
+
+                const pagination = document.querySelector(".pagination");
+                pagination.innerHTML = "";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching pagination data:', error);
+            const paginationRows = document.querySelector(".pagination_rows");
+            paginationRows.innerHTML = "Sin Registros";
+
+            const pagination = document.querySelector(".pagination");
+            pagination.innerHTML = "";
+        });
+}
+
+function paginate(object, page) {
+    if (page >= 0) {
+        getRows(object, "true", page);
+        getPagination(object, page);
+        changeActive(page);
+    }
+}
+
+function changeActive(id) {
+    const paginationItems = document.querySelectorAll(".pagination li");
+    paginationItems.forEach(item => {
+        item.classList.remove("active");
+    });
+
+    const activeLink = document.querySelector(".pagination li a[data-page='" + (id + 1) + "']");
+    if (activeLink) {
+        activeLink.parentNode.classList.add("active");
+    }
+}
+
+function getRows(object, condition, page) {
+    var where_condition = "";
+    if (condition !== "true") {
+        fields_object.forEach(function (field) {
+            if (field !== "id") {
+                where_condition += field + " like '%" + condition + "%' or ";
+            }
+        });
+
+        where_condition = where_condition.substring(0, where_condition.length - 3);
+    } else {
+        where_condition = condition;
+    }
+
+    var requestData = {
+        "object": object,
+        "fields": "*",
+        "where": "(" + where_condition + ")",
+        "page": page,
+        "order": "order by id asc"
+    };
+
+    fetch('http://127.0.0.1/controllers/redirect.php?endpoint=object.getRows', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (response) {
+            console.log("RESPUESTA GET ROWS: ");
+            console.log(response);
+            var tableBody = document.querySelector("#table_crud tbody");
+            tableBody.innerHTML = "";
+
+            response.forEach(function (value) {
+                var condition = primary_key + " = \\\"" + value[primary_key] + "\\\"";
+                var content_edit_action = '<button class="custom-button edit-button" onclick=\'openFormEditor("' + object + '", "' + primary_key + '", "' + value[primary_key] + '")\'>Editar</button>';
+                var content_trash_action = '<button class="custom-button delete-button" onclick=\'trash("' + object + '", "' + condition + '", this)\'>Borrar</button>';
+
+                if (object != 'orders') {
+                    var row = "<tr>" + "<td>" + content_edit_action + content_trash_action + "</td>";
+                } else {
+                    var row = "<tr>";
+                }
+                Object.keys(value).forEach(function (key) {
+                    row += "<td>" + value[key] + "</td>";
+                });
+
+                row += "</tr>";
+                tableBody.innerHTML += row;
+            });
+        })
+        .catch(function (error) {
+            console.error('Error fetching rows data:', error);
+            var tableBody = document.querySelector("#table_crud tbody");
+            tableBody.innerHTML = "<tr></tr>";
+        });
+}
+
+function trash(object, condition, el) {
+    alertMessage("warning", "¿Desea eliminar?", "Se eliminará de forma permanente.", "Si, ¡Eliminar!", "No", true, function (result) {
+        if (result) {
+            const request = {
+                "object": object,
+                "where": condition
+            };
+
+            fetch('http://127.0.0.1/controllers/redirect.php?endpoint=object.delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.token
+                },
+                body: JSON.stringify(request)
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.status === "OK") {
+                        el.parentNode.parentNode.remove();
+                        alertMessage("success", "¡Buen trabajo!", response.message);
+                    } else {
+                        alertMessage("error", "¡Lo sentimos!", response.message);
+                    }
+                })
+                .catch(error => {
+                    alertMessage("error", "Error 505", error.message, "Si los problemas persisten, comunicarse con el equipo de mantenimiento.");
+                });
+        }
+    });
+}

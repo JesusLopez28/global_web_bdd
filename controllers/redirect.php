@@ -50,6 +50,11 @@ switch ($endpoint) {
         response($crud->create($request->data));
         break;
 
+    case 'object.delete':
+        $crud = new Crud($conn, $request->object);
+        response($crud->delete($request->where));
+        break;
+
     case 'object.update':
         $crud = new Crud($conn, $request->object);
         response($crud->update($request->data, $request->where));
