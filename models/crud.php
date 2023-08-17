@@ -3,6 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use TCPDF;
 
 require '../vendor/autoload.php';
 class Crud
@@ -262,7 +263,7 @@ class Crud
             $mail->Port = 587;
 
             $mail->setFrom('administrador@ansus.com', 'Ansus');
-            $mail->addAddress($email, $name); // Usar la variable $email
+            $mail->addAddress($email, $name);
             $mail->isHTML(true);
             $mail->Subject = 'Confirmación de Pedido';
             $mail->Body = 'Aquí puedes agregar el contenido del correo en HTML, incluyendo el PDF del ticket.';
@@ -281,4 +282,39 @@ class Crud
             return ["status" => "BAD", "message" => "Error al enviar el correo: " . $mail->ErrorInfo];
         }
     }
+
+    
+function generateOrderPDF($orderId)
+{
+    // Conexión a la base de datos (asume que ya tienes esto configurado)
+    $conn = new mysqli('host', 'usuario', 'contraseña', 'basededatos');
+
+    // Consulta para obtener los detalles de la orden
+    $orderQuery = "SELECT * FROM orders WHERE id = $orderId";
+    $orderResult = $conn->query($orderQuery);
+
+    if (!$orderResult || $orderResult->num_rows === 0) {
+        return false; // No se encontró la orden
+    }
+
+    $orderData = $orderResult->fetch_assoc();
+
+    // Crear un nuevo PDF
+    $pdf = new TCPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('times', 'B', 16);
+    $pdf->Cell(0, 10, 'Detalles de la Orden', 0, 1, 'C');
+    
+    // Agregar información de la orden al PDF
+    $pdf->Ln(10); // Espacio
+    $pdf->Cell(0, 10, 'Número de Orden: ' . $orderData['order_number'], 0, 1);
+
+    // Agregar más detalles de la orden aquí...
+    
+    // Generar el PDF y guardarlo en un archivo temporal
+    $pdfFilePath = 'path/to/your/order_' . $orderId . '.pdf';
+    $pdf->Output($pdfFilePath, 'F');
+
+    return $pdfFilePath;
+}
 }
