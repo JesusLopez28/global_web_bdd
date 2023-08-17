@@ -206,6 +206,8 @@ class Crud
     function order()
     {
         $userId = USER["id"];
+        $email = USER["email"];
+        $name = USER["name"];
         $cartQuery = "SELECT * FROM shopping_cart WHERE user_id = $userId";
         $cartResult = $this->conn->query($cartQuery);
 
@@ -248,6 +250,35 @@ class Crud
             return ["status" => "BAD", "message" => "Error al eliminar el carrito"];
         }
 
-        return ["status" => "OK", "message" => "Pedido realizado exitosamente"];
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'jesus.lopez280402@gmail.com';
+            $mail->Password = 'wkfd ylem jcmv vuao';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            $mail->setFrom('administrador@ansus.com', 'Ansus');
+            $mail->addAddress($email, $name); // Usar la variable $email
+            $mail->isHTML(true);
+            $mail->Subject = 'Confirmación de Pedido';
+            $mail->Body = 'Aquí puedes agregar el contenido del correo en HTML, incluyendo el PDF del ticket.';
+
+            $pdfFilePath = 'path/to/your/ticket.pdf'; // Cambia esto
+            $mail->addAttachment($pdfFilePath, 'Ticket.pdf');
+
+            $mail->send();
+
+            if (file_exists($pdfFilePath)) {
+                unlink($pdfFilePath);
+            }
+
+            return ["status" => "OK", "message" => "Pedido realizado exitosamente y correo enviado"];
+        } catch (Exception $e) {
+            return ["status" => "BAD", "message" => "Error al enviar el correo: " . $mail->ErrorInfo];
+        }
     }
 }
