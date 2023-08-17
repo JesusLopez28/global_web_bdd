@@ -42,7 +42,7 @@
     </div>
 
     <main id="main">
-
+        <h1>Gestión de Usuarios</h1><br>
     </main>
 
     <div class="body__Page">

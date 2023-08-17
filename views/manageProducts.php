@@ -42,12 +42,8 @@
     </div>
 
     <main id="main">
-
+        <h1>Gestión de Productos</h1><br>
     </main>
-
-    <div class="body__Page">
-
-    </div>
 
     <button id="openModalBtn" onclick="openModal();" class="openModalBtn">Agregar Producto</button>
 
