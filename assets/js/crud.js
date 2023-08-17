@@ -189,7 +189,7 @@ function changeActive(id) {
 
 function getRows(object, condition, page, admin = "false") {
     var where_condition = "";
-    if (admin === "false" && (object === "orders" || object === "shopping_cart") ) {
+    if (admin === "false" && (object === "orders" || object === "shopping_cart")) {
         var userIdCondition = "user_id = " + sessionStorage.userId;
 
         if (where_condition === "") {
@@ -522,4 +522,68 @@ function addToCart(product, quantityInput) {
         });
 
     return false;
+}
+
+function updateQuantity(object, id_form) {
+    const modal = document.getElementById("modal");
+    console.log("ENTRO A LA FUNCION UPDATE QUANTITY");
+    var url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.update';
+
+    var form_data = JSON.parse(formJSON(id_form));
+
+    var data = JSON.stringify({
+        "object": object,
+        "data": form_data,
+        "where": "product_id = " + form_data.product_id
+    });
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: data
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            if (response.status == "OK") {
+                window.parent.alertMessage("success", "¡Cantidad actualizada en el carrito!", response.message);
+                modal.style.display = "none";
+            } else {
+                window.parent.alertMessage("error", "¡Lo sentimos!", response.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.parent.alertMessage("error", "¡Lo sentimos!", error);
+        });
+
+    return false;
+}
+
+function order() {
+    const url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.order';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log(response);
+        if (response.status == "OK") {
+            window.parent.alertMessage("success", "¡Orden realizada!", response.message);
+        } else {
+            window.parent.alertMessage("error", "¡Lo sentimos!", response.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        window.parent.alertMessage("error", "¡Lo sentimos!", error);
+    });
 }

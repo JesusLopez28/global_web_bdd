@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANSUS - CARRITO</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/modal.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/alert.css">
@@ -41,7 +42,7 @@
     </div>
 
     <main id="main">
-        <h1>Carrito</h1><br>
+        <h1>Carrito</h1><br> <button id="openModalBtn" onclick="order();" class="openModalBtn">Pedir</button>
     </main>
 
     <div class="body__Page">
@@ -57,6 +58,20 @@
         <div class="pagination_rows"></div>
         <ul class="pagination"></ul>
     </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Modificar Cantidad en Carrito</h2>
+            <form id="form" onsubmit='return updateQuantity("shopping_cart", "form")'>
+                <input type="hidden" id="productId" name="product_id">
+                <label for="productQuantity">Cantidad:</label>
+                <input type="number" id="productQuantity" name="quantity" required><br>
+                <button type="submit">Actualizar Cantidad</button>
+            </form>
+        </div>
+    </div>
+
 
     <footer>
         <div class="container__footer">
@@ -102,6 +117,11 @@
     <script src="../assets/js/lateral.js"></script>
 
     <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        });
+
         getCrud("shopping_cart", "true", "false");
 
         document.addEventListener('DOMContentLoaded', function() {

@@ -1,5 +1,10 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php';
 class Crud
 {
     public $table;
@@ -197,14 +202,52 @@ class Crud
             "total_pages" => ceil($data[0]["total_rows"] / ROWS_PER_PAGE)
         ];
     }
-    
-    function getIndexProducts()
-    {
-        $table = 'products';
-    }
 
-    function getIndexCategories()
+    function order()
     {
-        $table = 'categories';
+        $userId = USER["id"];
+        $cartQuery = "SELECT * FROM shopping_cart WHERE user_id = $userId";
+        $cartResult = $this->conn->query($cartQuery);
+
+        if (!$cartResult) {
+            return ["status" => "BAD", "message" => "Error al obtener el carrito"];
+        }
+
+        $total = 0;
+        while ($cartItem = $cartResult->fetch_assoc()) {
+            $total += $cartItem['subtotal'];
+        }
+
+        $orderInsertQuery = "INSERT INTO orders (user_id, total) VALUES ($userId, $total)";
+        $orderInsertResult = $this->conn->query($orderInsertQuery);
+
+        if (!$orderInsertResult) {
+            return ["status" => "BAD", "message" => "Error al insertar la orden"];
+        }
+
+        $orderId = $this->conn->insert_id;
+
+        $cartResult->data_seek(0);
+        while ($cartItem = $cartResult->fetch_assoc()) {
+            $product_id = $cartItem['product_id'];
+            $quantity = $cartItem['quantity'];
+            $subtotal = $cartItem['subtotal'];
+
+            $orderDetailInsertQuery = "INSERT INTO order_details (order_id, product_id, quantity, subtotal) VALUES ($orderId, $product_id, $quantity, $subtotal)";
+            $orderDetailInsertResult = $this->conn->query($orderDetailInsertQuery);
+
+            if (!$orderDetailInsertResult) {
+                return ["status" => "BAD", "message" => "Error al insertar el detalle de la orden"];
+            }
+        }
+
+        $cartDeleteQuery = "DELETE FROM shopping_cart WHERE user_id = $userId";
+        $cartDeleteResult = $this->conn->query($cartDeleteQuery);
+
+        if (!$cartDeleteResult) {
+            return ["status" => "BAD", "message" => "Error al eliminar el carrito"];
+        }
+
+        return ["status" => "OK", "message" => "Pedido realizado exitosamente"];
     }
 }

@@ -35,14 +35,9 @@ switch ($endpoint) {
         response($user->getSesionData());
         break;
 
-    case 'object.getIndexProducts':
+    case 'object.order':
         $crud = new Crud($conn, $request->object);
-        response($crud->getIndexProducts());
-        break;
-
-    case 'object.getIndexCategories':
-        $crud = new Crud($conn, $request->object);
-        response($crud->getIndexCategories());
+        response($crud->order());
         break;
 
     case 'object.create':
