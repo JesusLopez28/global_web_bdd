@@ -9,29 +9,28 @@ require 'vendor/autoload.php';
 if (isset($_POST)) {
 
    $mail = new PHPMailer(true);
-   $nombre = trim($_POST['name']);
-   $correo = trim($_POST['email']);
+   $nombre = "Jesus";
+   $correo = "jesale.lopro@gmail.com";
    $asunto = "Información desde página web";
-   $mensaje = trim($_POST['message']);
+   $mensaje = "Prueba";
 
    try {
       //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
       $mail->isSMTP();
-      $mail->Host = 'smtp.hostinger.com';
+      $mail->Host = 'smtp.gmail.com';
       $mail->SMTPAuth = true;
-      $mail->Username = 'gerencia@invict.mx';
-      $mail->Password = 'HigieneLaboral23$';
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+      $mail->Username = 'jesus.lopez280402@gmail.com';
+      $mail->Password = 'wkfd ylem jcmv vuao';
+      $mail->SMTPSecure = 'tls';
       $mail->Port = 587;
-
-      $mail->setFrom('pagina@invict.mx');
-      $mail->addAddress('contacto@invict.mx');
-
+  
+      $mail->setFrom('jesus.lopez280402@gmail.com', 'Jesús');
+      $mail->addAddress('jesale.lopro@gmail.com', 'Alejandro');
+  
       $mail->isHTML(true);
-      $mail->Subject = utf8_decode($asunto);
-      $mail->Body = 'Nombre:'.$nombre.
-      '<br>Correo:'.$correo.
-      '<br>Mensaje:'.$mensaje;
+      $mail->Subject = 'Asunto del correo';
+      $mail->Body = 'Contenido del correo en HTML';
+  
       $mail->send();
 
       echo "Hemos recibido tu mensaje, gracias por escribirnos";
