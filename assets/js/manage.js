@@ -48,6 +48,8 @@ if (token) {
         })
         .catch(error => {
             console.error('Error:', error);
+            sessionStorage.clear();
+            window.location.href = '/index.php';
         });
 }
 

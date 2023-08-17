@@ -33,9 +33,8 @@ CREATE TABLE
     products (
         id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID',
         name VARCHAR(255) COMMENT 'Producto',
-        description TEXT COMMENT 'Descripcion',
         price DECIMAL(10, 2) COMMENT 'Precio',
-        category_id INT COMMENT 'ID Categoría',
+        category_id INT COMMENT 'ID Categoria',
         stock INT COMMENT 'Stock',
         image VARCHAR(255) COMMENT 'Imagen',
         FOREIGN KEY (category_id) REFERENCES categories(id)
@@ -71,16 +70,4 @@ CREATE TABLE
         subtotal DECIMAL(10, 2) COMMENT 'Subtotal',
         FOREIGN KEY (oreder_id) REFERENCES orders(id),
         FOREIGN KEY (product_id) REFERENCES products(id)
-    );
-
-CREATE TABLE
-    reviews (
-        ID INT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID',
-        product_id INT COMMENT 'ID Producto',
-        user_id INT COMMENT 'ID Usuario',
-        Rating INT COMMENT 'Calificacion',
-        comment TEXT COMMENT 'Comentario',
-        date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha',
-        FOREIGN KEY (product_id) REFERENCES products(id),
-        FOREIGN KEY (user_id) REFERENCES users(id)
     );
