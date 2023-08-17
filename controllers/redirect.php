@@ -25,6 +25,26 @@ switch ($endpoint) {
         response($user->register($request->data));
         break;
 
+    case 'user.getMenu':
+        $crud = new Crud($conn, $request->object);
+        response($crud->getMenu());
+        break;
+
+    case "user.getSesionData":
+        $user = new User($conn);
+        response($user->getSesionData());
+        break;
+
+    case 'object.getIndexProducts':
+        $crud = new Crud($conn, $request->object);
+        response($crud->getIndexProducts());
+        break;
+
+    case 'object.getIndexCategories':
+        $crud = new Crud($conn, $request->object);
+        response($crud->getIndexCategories());
+        break;
+
     case 'object.create':
         $crud = new Crud($conn, $request->object);
         response($crud->create($request->data));
@@ -35,14 +55,24 @@ switch ($endpoint) {
         response($crud->update($request->data, $request->where));
         break;
 
-    case 'object.delete':
+    case 'object.create':
         $crud = new Crud($conn, $request->object);
-        response($crud->delete($request->where));
+        response($crud->create($request->data));
         break;
 
-    case 'user.getMenu':
+    case 'object.getInfo':
         $crud = new Crud($conn, $request->object);
-        response($crud->getMenu());
+        response($crud->getInfo());
+        break;
+
+    case 'object.getRows':
+        $crud = new Crud($conn, $request->object);
+        response($crud->getData($request->fields, $request->where, $request->page, $request->order));
+        break;
+
+    case 'object.count':
+        $crud = new Crud($conn, $request->object);
+        response($crud->count($request->where));
         break;
 
     default:

@@ -135,4 +135,77 @@ class Crud
 
         return $menu;
     }
+
+    function getInfo()
+    {
+        $table = $this->table;
+        $sql = "show full columns from $table;";
+        if (DEBUG) echo $sql;
+        $result = $this->conn->query($sql);
+        $data = [];
+        $primary = "[NO_PRIMARY]";
+        while ($row = $result->fetch_assoc()) {
+            if ($row["Key"] == "PRI") $primary = $row["Field"];
+            $comments = json_decode($row["Comment"]);
+            $r = [
+                "field" => $row["Field"],
+                "label" => $comments->label
+            ];
+            array_push($data, $r);
+        }
+        return [
+            "primary" => $primary,
+            "data" => $data
+        ];
+    }
+
+    function getData($fields = "*", $where = "true", $page = 0, $order = "")
+    {
+        $table = $this->table;
+        $data = [];
+        $rows = ROWS_PER_PAGE;
+        if ($table != "address_book") {
+        }
+        $startIndex = ($page) * $rows;
+        $sql = "SELECT $fields FROM $table WHERE $where $order LIMIT $startIndex, $rows";
+        if (DEBUG) echo "\n$sql\n";
+        #die();
+        $result = $this->conn->query($sql);
+        if ($result === FALSE) {
+            if (DEBUG) {
+                echo "\n\n→Error conn: " . $this->conn->error . "\n\n";
+            }
+        }
+        while ($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    }
+
+    function count($where = "true")
+    {
+        $table = $this->table;
+        $data = [];
+        $sql = "select count(*) as total_rows from $table where $where";
+        $result = $this->conn->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return [
+            "status" => "OK",
+            "total_rows" => $data[0]["total_rows"],
+            "total_pages" => ceil($data[0]["total_rows"] / ROWS_PER_PAGE)
+        ];
+    }
+
+
+    function getIndexProducts()
+    {
+        $table = 'products';
+    }
+
+    function getIndexCategories()
+    {
+        $table = 'categories';
+    }
 }

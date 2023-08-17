@@ -66,22 +66,73 @@
         <h1>Bienvenido a Ansus</h1><br>
         <nav>
             <ul class="menu">
-                <li><a href="views/login.php">Sillas</a></li>
-                <li><a href="views/login.php">Mesas</a></li>
                 <li><a href="views/login.php">Sofás</a></li>
+                <li><a href="views/login.php">Mesas</a></li>
+                <li><a href="views/login.php">Sillas</a></li>
                 <li><a href="views/login.php">Camas</a></li>
+                <li><a href="views/login.php">Escritorios</a></li>
                 <li><a href="views/login.php">Colchones</a></li>
-                <li><a href="views/login.php">Accesorios</a></li>
+                <li><a href="views/login.php">Cómodas</a></li>
+                <li><a href="views/login.php">Comedores</a></li>
             </ul>
         </nav>
     </main>
 
     <div class="body__Page">
         <div class="container__article">
+        <div class="box__article">
+                <img src="assets/images/products/sofaCafe.png" alt="">
+                <h4>Sofá café</h4>
+                <p>Precio: $4,200</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
+
             <div class="box__article">
-                <img src="assets/images/productsIndex/sillon.png" alt="">
-                <h4>Silla blanca</h4>
+                <img src="assets/images/products/mesaMadera.png" alt="">
+                <h4>Mesa de madera</h4>
+                <p>Precio: $3,100</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
+
+            <div class="box__article">
+                <img src="assets/images/products/sillaAcolchonada.png" alt="">
+                <h4>Silla acolchonada</h4>
                 <p>Precio: $1,500</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
+
+            <div class="box__article">
+                <img src="assets/images/products/camaTapizada.png" alt="">
+                <h4>Cama Tapizada</h4>
+                <p>Precio: $6,000</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
+
+            <div class="box__article">
+                <img src="assets/images/products/escritorioOficina.png" alt="">
+                <h4>Escritorio de Oficina</h4>
+                <p>Precio: $4,800</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
+
+            <div class="box__article">
+                <img src="assets/images/products/colchonMatrimonial.png" alt="">
+                <h4>Colchon Matrimonial</h4>
+                <p>Precio: $5,900</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
+
+            <div class="box__article">
+                <img src="assets/images/products/comodaMadera.png" alt="">
+                <h4>Comoda de Madera</h4>
+                <p>Precio: $1,500</p>
+                <a href="views/login.php">Agregar al carrito</a>
+            </div>
+
+            <div class="box__article">
+                <img src="assets/images/products/comedorPeque.png" alt="">
+                <h4>Comedor Pequeño</h4>
+                <p>Precio: $8,200</p>
                 <a href="views/login.php">Agregar al carrito</a>
             </div>
         </div>
@@ -131,7 +182,22 @@
     <script src="assets/js/general.js?x=1"></script>
     <script src="assets/js/lateral.js"></script>
     <script type="text/javascript">
+        fetch('http://127.0.0.1/controllers/redirect.php?endpoint=object.getIndex', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "object": {}
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
 
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     </script>
 </body>
 

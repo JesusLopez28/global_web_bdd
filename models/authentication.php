@@ -34,7 +34,10 @@ class Authentication extends Crud
     }
     function getUserDataByToken($token)
     {
-        $sql = "select id, email, name, role from users where id = (select user_id from auth_token where token = '$token')";
+        $sql = "SELECT u.id, u.email, u.name, u.role 
+        FROM users u
+        JOIN auth_token a ON u.id = a.user_id
+        WHERE a.token = '$token';";
         if (DEBUG) echo $sql;
         $n = $this->conn->query($sql)->fetch_assoc();
         return $n;

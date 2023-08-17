@@ -41,4 +41,16 @@ class User extends Crud
         $result = $object->create($data);
         return $result;
     }
+
+    function getSesionData()
+    {
+        return [
+            "code" => "OK",
+            "data" =>
+            [
+                "name" => "" . USER["name"] . "",
+                "role" => "" . USER["role"] . ""
+            ]
+        ];
+    }
 }
