@@ -569,9 +569,13 @@ function order() {
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + sessionStorage.token
-        }
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "object": {},
+            "data": {}
+        })
     })
     .then(response => response.json())
     .then(response => {
