@@ -65,7 +65,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Agregar/Editar Usuario</h2>
-            <form id="userForm" onsubmit='return create("users", "userForm")' enctype="multipart/form-data">
+            <form id="form" onsubmit='return create("users", "form")' enctype="multipart/form-data">
                 <label for="name">Nombre:</label>
                 <input type="text" id="name" name="name" required><br>
                 <label for="last_name">Apellido:</label>

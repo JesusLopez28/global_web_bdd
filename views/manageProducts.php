@@ -65,7 +65,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Agregar/Editar Producto</h2>
-            <form id="productForm" onsubmit='return create("products", "productForm")' enctype="multipart/form-data">
+            <form id="form" onsubmit='return create("products", "form")' enctype="multipart/form-data">
                 <label for="productName">Producto:</label>
                 <input type="text" id="productName" name="name" required><br>
                 <label for="productPrice">Precio:</label>

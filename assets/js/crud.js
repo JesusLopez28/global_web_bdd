@@ -277,8 +277,111 @@ function trash(object, condition, el) {
                     }
                 })
                 .catch(error => {
-                    alertMessage("error", "Error 505", error.message, "Si los problemas persisten, comunicarse con el equipo de mantenimiento.");
+                    alertMessage("error", "Error 505", error.message, "Error fatal.");
                 });
         }
     });
 }
+
+function openFormEditor(object, condition, value) {
+    const modal = document.getElementById("modal");
+    console.log("LLEGO AL EDITOR");
+    var where = condition + " = '" + value + "'";
+    var data = JSON.stringify({
+        "object": object,
+        "fields": "*",
+        "where": where,
+        "page": 0,
+        "order": ""
+    });
+    console.log("------- REQUEST FORM EDIT ------> ");
+    console.log(data);
+
+    modal.style.display = "block";
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+
+    fetch('http://127.0.0.1/controllers/redirect.php?endpoint=object.getRows', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: data
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log("RESPUESTA DE EDICIION");
+            console.log(response);
+            var data = response[0];
+
+            const form = document.getElementById("form");
+            const updateButton = document.createElement("button");
+            updateButton.textContent = "Actualizar";
+            updateButton.classList.add("button");
+            updateButton.onclick = function () {
+                update(object, "form", condition, value);
+                form.onsubmit = null;
+                return false;
+            };
+
+            const addButton = form.querySelector("button[type='submit']");
+            addButton.style.display = "none";
+
+            form.insertBefore(updateButton, addButton);
+
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        input.value = data[key];
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+function update(object, id_form, condition, value) {
+    console.log("***** ENTRO AL UPDATE *****");
+    console.log(condition);
+    var where = condition + " = '" + value + "'";
+    var form_data = JSON.parse(formJSON(id_form));
+    var data = JSON.stringify({
+        "object": object,
+        "data": form_data,
+        "where": where
+    });
+    console.log("---------- REQUEST UPDATE ----------->");
+    console.log(data);
+
+    fetch('http://127.0.0.1/controllers/redirect.php?endpoint=object.update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: data
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log("RESPUESTA DE UPDATE");
+            console.log(response);
+            if (response.status == "OK") {
+                document.querySelector(id_form).reset();
+                const modal = window.parent.document.querySelector(".modal");
+                modal.style.display = 'none';
+                alertMessage("success", "¡Buen trabajo!", response.message);
+            } else {
+                alertMessage("error", "¡Lo sentimos!", response.message);
+            }
+        })
+        .catch(error => {
+            alertMessage("error", "Error 505", error.message, "Error fatal.");
+        });
+    return false;
+}
+

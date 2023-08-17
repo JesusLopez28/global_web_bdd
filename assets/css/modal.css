@@ -40,7 +40,7 @@ form {
     margin-top: 0;
 }
 
-button[type="submit"], .openModalBtn {
+button[type="submit"], .openModalBtn, .button {
     padding: 5px 10px;
     background-color: #9d8161;
     color: white;
@@ -49,6 +49,6 @@ button[type="submit"], .openModalBtn {
     cursor: pointer;
 }
 
-button[type="submit"]:hover, .openModalBtn:hover {
+button[type="submit"]:hover, .openModalBtn:hover, .button:hover {
     background-color: #7b5037;
 }
