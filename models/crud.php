@@ -210,6 +210,10 @@ class Crud
         $email = USER["email"];
         $name = USER["name"];
 
+        if (DEBUG) echo "\n$userId\n";
+        if (DEBUG) echo "\n$email\n";
+        if (DEBUG) echo "\n$name\n";
+
         try {
             $cartQuery = "SELECT * FROM shopping_cart WHERE user_id = $userId";
             $cartResult = $this->conn->query($cartQuery);
@@ -281,7 +285,7 @@ class Crud
                 $mail->setFrom('administrador@ansus.com', 'Ansus');
                 $mail->addAddress($email, $name);
                 $mail->isHTML(true);
-                $mail->Subject = 'Confirmación de Pedido';
+                $mail->Subject = utf8_decode('Confirmación de Pedido');
                 $mail->Body = 'Gracias por comprar en Ansus.';
 
                 $mail->addAttachment($pdfFilePath, 'Ticket.pdf');
@@ -301,22 +305,58 @@ class Crud
         }
     }
 
-
-
     function generateOrderPDF($orderId)
     {
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
 
-        $orderQuery = "SELECT * FROM orders WHERE id = $orderId";
-        $orderResult = $this->conn->query($orderQuery);
+        $query = "SELECT * FROM orders WHERE id = $orderId";
+        $result = $this->conn->query($query);
+        $order = $result->fetch_assoc();
 
-        if (!$orderResult || $orderResult->num_rows === 0) {
-            return false;
+        $query = "SELECT products.name, order_details.quantity, order_details.subtotal FROM order_details
+                  INNER JOIN products ON order_details.product_id = products.id
+                  WHERE order_details.oreder_id = $orderId";
+        $result = $this->conn->query($query);
+        $details = $result->fetch_assoc();
+        if (DEBUG) echo "\n$details\n";
+
+        $headerColor = array(100, 100, 100);
+        $bgColor = array(230, 230, 230);
+        $textColor = array(0, 0, 0);
+
+        $pdf->SetFillColor($headerColor[0], $headerColor[1], $headerColor[2]);
+        $pdf->SetTextColor($textColor[0], $textColor[1], $textColor[2]);
+
+        $pdf->Image('../assets/images/ansusIcon.png', 10, 10, 20);
+
+        $pdf->SetFont('Arial', 'B', 20);
+        $pdf->Cell(0, 20, 'Ticket de Orden - Ansus', 0, 1, 'C');
+
+        $pdf->Ln(5);
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetFillColor($bgColor[0], $bgColor[1], $bgColor[2]);
+        $pdf->Cell(60, 10, 'Producto', 1, 0, 'C', 1);
+        $pdf->Cell(40, 10, 'Cantidad', 1, 0, 'C', 1);
+        $pdf->Cell(50, 10, 'Subtotal', 1, 1, 'C', 1);
+
+        $pdf->SetFont('Arial', '', 12);
+        while ($row = $details) {
+            $pdf->Cell(60, 10, utf8_decode($row['name']), 1, 0, 'L', 0);
+            $pdf->Cell(40, 10, $row['quantity'], 1, 0, 'C', 0);
+            $pdf->Cell(50, 10, '$' . $row['subtotal'], 1, 1, 'R', 0);
         }
 
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->Cell(100, 10, 'Total', 1, 0, 'C', 1);
+        $pdf->Cell(50, 10, '$' . $order['total'], 1, 1, 'R', 0);
 
+        $pdf->SetFont('Arial', 'I', 12);
+        $pdf->Cell(0, 10, 'Fecha de Compra: ' . $order['order_date'], 0, 1, 'R');
 
-        $pdfFilePath = 'pdf/' . $orderId . '.pdf';
-
+        $pdfFilePath = 'order_' . $orderId . '.pdf';
+        $pdf->Output($pdfFilePath, 'F');
 
         return $pdfFilePath;
     }
