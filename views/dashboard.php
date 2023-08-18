@@ -42,8 +42,20 @@
     </div>
 
     <main id="main">
-
-    </main>
+    <h1>Bienvenido a Ansus</h1><br>
+    <nav>
+        <ul class="menu">
+            <li onclick="displayProducts('products', 'Sofá', 0);">Sofás</li>
+            <li onclick="displayProducts('products', 'Mesa', 0);">Mesas</li>
+            <li onclick="displayProducts('products', 'Silla', 0);">Sillas</li>
+            <li onclick="displayProducts('products', 'Cama', 0);">Camas</li>
+            <li onclick="displayProducts('products', 'Escritorio', 0);">Escritorios</li>
+            <li onclick="displayProducts('products', 'Colchón', 0);">Colchones</li>
+            <li onclick="displayProducts('products', 'Cómoda', 0);">Cómodas</li>
+            <li onclick="displayProducts('products', 'Comedor', 0);">Comedores</li>
+        </ul>
+    </nav>
+</main>
 
     <div class="body__Page">
         <div class="container__article" id="articles">

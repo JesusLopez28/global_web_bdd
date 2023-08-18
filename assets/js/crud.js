@@ -484,48 +484,77 @@ function displayProducts(object, condition, page) {
                 noProductFound.textContent = "Ups... No se encontró el producto";
                 articlesContainer.appendChild(noProductFound);
             } else {
-
                 response.forEach(function (value) {
                     var article = document.createElement("div");
                     article.className = "box__article";
-
+                
+                    var imageContainer = document.createElement("div");
+                    imageContainer.className = "image-container";
+                
                     var image = document.createElement("img");
                     image.src = "../assets/images/products/" + value.image;
                     image.alt = value.name;
-
+                
                     var productName = document.createElement("h4");
                     productName.textContent = value.name;
-
+                
                     var price = document.createElement("p");
                     price.textContent = "Precio: $" + value.price;
-
+                
                     var category = document.createElement("p");
                     category.textContent = "ID: " + value.id;
-
+                
                     var stock = document.createElement("p");
                     stock.textContent = "Stock: " + value.stock;
-
+                
+                    var quantityContainer = document.createElement("div");
+                    quantityContainer.className = "quantity-container";
+                
                     var quantityInput = document.createElement("input");
                     quantityInput.type = "number";
                     quantityInput.min = "1";
                     quantityInput.value = "1";
                     quantityInput.placeholder = "Cantidad";
-
+                    quantityInput.className = "quantity-input";
+                
+                    var decreaseButton = document.createElement("button");
+                    decreaseButton.textContent = "-";
+                    decreaseButton.classList.add("quantity-button");
+                    decreaseButton.onclick = function () {
+                        if (parseInt(quantityInput.value) > 1) {
+                            quantityInput.value = parseInt(quantityInput.value) - 1;
+                        }
+                    };
+                
+                    var increaseButton = document.createElement("button");
+                    increaseButton.textContent = "+";
+                    increaseButton.classList.add("quantity-button");
+                    increaseButton.onclick = function () {
+                        quantityInput.value = parseInt(quantityInput.value) + 1;
+                    };
+                
                     var addToCartButton = document.createElement("button");
                     addToCartButton.textContent = "Agregar al carrito";
                     addToCartButton.classList.add("button");
                     addToCartButton.onclick = function () {
                         addToCart(value, quantityInput);
                     };
-
-                    article.appendChild(image);
+                
+                    imageContainer.appendChild(image);
+                    article.appendChild(imageContainer);
                     article.appendChild(productName);
                     article.appendChild(price);
                     article.appendChild(category);
                     article.appendChild(stock);
-                    article.appendChild(quantityInput);
+                
+                    quantityContainer.appendChild(decreaseButton);
+                    quantityContainer.appendChild(quantityInput);
+                    quantityContainer.appendChild(increaseButton);
+                    quantityContainer.appendChild(increaseButton);
+                
+                    article.appendChild(quantityContainer);
                     article.appendChild(addToCartButton);
-
+                
                     articlesContainer.appendChild(article);
                 });
             }
