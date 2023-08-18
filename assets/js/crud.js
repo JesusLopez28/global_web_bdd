@@ -487,36 +487,36 @@ function displayProducts(object, condition, page) {
                 response.forEach(function (value) {
                     var article = document.createElement("div");
                     article.className = "box__article";
-                
+
                     var imageContainer = document.createElement("div");
                     imageContainer.className = "image-container";
-                
+
                     var image = document.createElement("img");
                     image.src = "../assets/images/products/" + value.image;
                     image.alt = value.name;
-                
+
                     var productName = document.createElement("h4");
                     productName.textContent = value.name;
-                
+
                     var price = document.createElement("p");
-                    price.textContent = "Precio: $" + value.price;
-                
+                    price.textContent = "Precio: $" + value.price.toLocaleString('es-MX');
+
                     var category = document.createElement("p");
                     category.textContent = "ID: " + value.id;
-                
+
                     var stock = document.createElement("p");
                     stock.textContent = "Stock: " + value.stock;
-                
+
                     var quantityContainer = document.createElement("div");
                     quantityContainer.className = "quantity-container";
-                
+
                     var quantityInput = document.createElement("input");
                     quantityInput.type = "number";
                     quantityInput.min = "1";
                     quantityInput.value = "1";
                     quantityInput.placeholder = "Cantidad";
                     quantityInput.className = "quantity-input";
-                
+
                     var decreaseButton = document.createElement("button");
                     decreaseButton.textContent = "-";
                     decreaseButton.classList.add("quantity-button");
@@ -525,36 +525,36 @@ function displayProducts(object, condition, page) {
                             quantityInput.value = parseInt(quantityInput.value) - 1;
                         }
                     };
-                
+
                     var increaseButton = document.createElement("button");
                     increaseButton.textContent = "+";
                     increaseButton.classList.add("quantity-button");
                     increaseButton.onclick = function () {
                         quantityInput.value = parseInt(quantityInput.value) + 1;
                     };
-                
+
                     var addToCartButton = document.createElement("button");
                     addToCartButton.textContent = "Agregar al carrito";
                     addToCartButton.classList.add("button");
                     addToCartButton.onclick = function () {
                         addToCart(value, quantityInput);
                     };
-                
+
                     imageContainer.appendChild(image);
                     article.appendChild(imageContainer);
                     article.appendChild(productName);
                     article.appendChild(price);
                     article.appendChild(category);
                     article.appendChild(stock);
-                
+
                     quantityContainer.appendChild(decreaseButton);
                     quantityContainer.appendChild(quantityInput);
                     quantityContainer.appendChild(increaseButton);
                     quantityContainer.appendChild(increaseButton);
-                
+
                     article.appendChild(quantityContainer);
                     article.appendChild(addToCartButton);
-                
+
                     articlesContainer.appendChild(article);
                 });
             }
@@ -671,4 +671,101 @@ function order() {
             console.error('Error:', error);
             window.parent.alertMessage("error", "¡Lo sentimos!", error);
         });
+}
+
+function getCartProducts() {
+    const url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.getCartProducts';
+
+    const requestData = {
+        "object": {},
+        "data": {}
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            displayCartProducts(response);
+        })
+        .catch(error => {
+            console.error('Error fetching cart data:', error);
+        });
+}
+
+function displayCartProducts(cartProducts) {
+    var cartContainer = document.getElementById("cart");
+    cartContainer.innerHTML = "";
+
+    if (cartProducts.length === 0) {
+        var noProductFound = document.createElement("h1");
+        noProductFound.textContent = "El carrito está vacío";
+        cartContainer.appendChild(noProductFound);
+    } else {
+        var table = document.createElement("table");
+        table.className = "cart-table";
+
+        var thead = document.createElement("thead");
+        var headerRow = document.createElement("tr");
+        var thImage = document.createElement("th");  
+        thImage.textContent = "Imagen";               
+        var thName = document.createElement("th");
+        thName.textContent = "Producto";
+        var thQuantity = document.createElement("th");
+        thQuantity.textContent = "Cantidad";
+        var thPrice = document.createElement("th");
+        thPrice.textContent = "Precio Unitario";
+        var thSubtotal = document.createElement("th");
+        thSubtotal.textContent = "Subtotal";
+
+        headerRow.appendChild(thImage);             
+        headerRow.appendChild(thName);
+        headerRow.appendChild(thQuantity);
+        headerRow.appendChild(thPrice);
+        headerRow.appendChild(thSubtotal);
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        var tbody = document.createElement("tbody");
+
+        cartProducts.forEach(function (value) {
+            var row = document.createElement("tr");
+
+            var cellImage = document.createElement("td"); 
+            var image = document.createElement("img");   
+            image.src = "../assets/images/products/" + value.image;  
+            image.alt = value.name; 
+            cellImage.appendChild(image); 
+
+            var cellName = document.createElement("td");
+            cellName.textContent = value.name;
+
+            var cellQuantity = document.createElement("td");
+            cellQuantity.textContent = value.quantity;
+
+            var cellPrice = document.createElement("td");
+            cellPrice.textContent = "$" + value.price.toLocaleString('es-MX');
+
+            var cellSubtotal = document.createElement("td");
+            cellSubtotal.textContent = "$" + value.subtotal.toLocaleString('es-MX');
+
+            row.appendChild(cellImage);
+            row.appendChild(cellName);
+            row.appendChild(cellQuantity);
+            row.appendChild(cellPrice);
+            row.appendChild(cellSubtotal);
+
+            tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+        cartContainer.appendChild(table);
+    }
 }

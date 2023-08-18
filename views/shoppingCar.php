@@ -42,36 +42,14 @@
     </div>
 
     <main id="main">
-        <h1>Carrito</h1><br> <button id="openModalBtn" onclick="order();" class="openModalBtn">Pedir</button>
+        <h1>Carrito</h1>
     </main>
 
     <div class="body__Page">
         <div class="table-container">
-            <table id="table_crud">
-                <thead>
-                    <tr id="tr-headers"></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div class="pagination_rows"></div>
-        <ul class="pagination"></ul>
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Modificar Cantidad en Carrito</h2>
-            <form id="form" onsubmit='return updateQuantity("shopping_cart", "form")'>
-                <input type="hidden" id="productId" name="product_id">
-                <label for="productQuantity">Cantidad:</label>
-                <input type="number" id="productQuantity" name="quantity" required><br>
-                <button type="submit">Actualizar Cantidad</button>
-            </form>
+            <div id="cart"></div>
         </div>
     </div>
-
 
     <footer>
         <div class="container__footer">
@@ -117,22 +95,7 @@
     <script src="../assets/js/lateral.js"></script>
 
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
-            const modal = document.getElementById("modal");
-            modal.style.display = "none";
-        });
-
-        getCrud("shopping_cart", "true", "false");
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var searchButton = document.getElementById('search_button');
-            var inputSearch = document.getElementById('search');
-
-            searchButton.addEventListener('click', function() {
-                var inputValue = inputSearch.value;
-                getRows('shopping_cart', inputValue, 0, "false");
-            });
-        });
+        window.addEventListener('load', getCartProducts);
     </script>
 </body>
 

@@ -40,6 +40,11 @@ switch ($endpoint) {
         response($crud->order());
         break;
 
+    case 'object.getCartProducts':
+        $crud = new Crud($conn, $request->object);
+        response($crud->getCartProducts());
+        break;
+
     case 'object.create':
         $crud = new Crud($conn, $request->object);
         response($crud->create($request->data));

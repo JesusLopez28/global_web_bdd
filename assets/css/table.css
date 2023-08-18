@@ -1,22 +1,36 @@
 .table-container {
     overflow-x: auto;
+    margin: 100px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
+    font-size: x-large;
 }
 
 th,
 td {
-    border: 1px solid #dddddd;
+    border: 1px solid #5f5a4d;
     text-align: left;
     padding: 8px;
+    background-color: #e3ded1;
+    text-align: center;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #7b5037;
+}
+
+table img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin: auto;
+    display: block;
 }
 
 @media (max-width: 600px) {
@@ -24,11 +38,6 @@ th {
         display: block;
         overflow-x: auto;
     }
-}
-
-.pagination_rows {
-    margin-bottom: 10px;
-    font-size: 14px;
 }
 
 .pagination {

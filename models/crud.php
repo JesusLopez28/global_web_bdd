@@ -33,6 +33,27 @@ class Crud
         }
         $fields = rtrim($fields, ", ");
         $values = rtrim($values, ", ");
+
+        if ($table === "shopping_cart" && isset($data["user_id"]) && isset($data["product_id"])) {
+            $userId = $data["user_id"];
+            $productId = $data["product_id"];
+            $existingCartItemQuery = "SELECT * FROM shopping_cart WHERE user_id = $userId AND product_id = $productId";
+            $existingCartItemResult = $this->conn->query($existingCartItemQuery);
+
+            if ($existingCartItemResult && $existingCartItemResult->num_rows > 0) {
+                $existingCartItem = $existingCartItemResult->fetch_assoc();
+                $newQuantity = $existingCartItem["quantity"] + $data["quantity"];
+                $newSubtotal = $existingCartItem["subtotal"] + $data["subtotal"];
+
+                $updateQuery = "UPDATE shopping_cart SET quantity = $newQuantity, subtotal = $newSubtotal WHERE id = " . $existingCartItem["id"];
+                if ($this->conn->query($updateQuery) === TRUE) {
+                    return ["status" => "OK", "message" => "Producto actualizado en el carrito"];
+                } else {
+                    return ["status" => "BAD", "message" => "Error al actualizar producto en el carrito -> {$this->conn->error}"];
+                }
+            }
+        }
+
         $sql = "INSERT INTO $table ($fields) VALUES ($values)";
         try {
             if ($this->conn->query($sql) !== FALSE) {
@@ -249,7 +270,7 @@ class Crud
                 $quantity = $cartItem['quantity'];
                 $subtotal = $cartItem['subtotal'];
 
-                $orderDetailInsertQuery = "INSERT INTO order_details (oreder_id, product_id, quantity, subtotal) VALUES (14, $product_id, $quantity, $subtotal)";
+                $orderDetailInsertQuery = "INSERT INTO order_details (oreder_id, product_id, quantity, subtotal) VALUES ($orderId, $product_id, $quantity, $subtotal)";
                 $orderDetailInsertResult = $this->conn->query($orderDetailInsertQuery);
                 if (DEBUG) echo "\n$orderDetailInsertQuery\n";
                 if (!$orderDetailInsertResult) {
@@ -318,9 +339,8 @@ class Crud
         $query = "SELECT products.name, order_details.quantity, order_details.subtotal FROM order_details
                   INNER JOIN products ON order_details.product_id = products.id
                   WHERE order_details.oreder_id = $orderId";
+        if (DEBUG) echo "\n$query\n";
         $result = $this->conn->query($query);
-        $details = $result->fetch_assoc();
-        if (DEBUG) echo "\n$details\n";
 
         $headerColor = array(100, 100, 100);
         $bgColor = array(230, 230, 230);
@@ -342,15 +362,15 @@ class Crud
         $pdf->Cell(50, 10, 'Subtotal', 1, 1, 'C', 1);
 
         $pdf->SetFont('Arial', '', 12);
-        while ($row = $details) {
+        while ($row = $result->fetch_assoc()) {
             $pdf->Cell(60, 10, utf8_decode($row['name']), 1, 0, 'L', 0);
             $pdf->Cell(40, 10, $row['quantity'], 1, 0, 'C', 0);
-            $pdf->Cell(50, 10, '$' . $row['subtotal'], 1, 1, 'R', 0);
+            $pdf->Cell(50, 10, '$' . number_format($row['subtotal'], 2, '.', ','), 1, 1, 'R', 0);
         }
 
         $pdf->SetFont('Arial', 'B', 14);
         $pdf->Cell(100, 10, 'Total', 1, 0, 'C', 1);
-        $pdf->Cell(50, 10, '$' . $order['total'], 1, 1, 'R', 0);
+        $pdf->Cell(50, 10, '$' . number_format($order['total'], 2, '.', ','), 1, 1, 'R', 0);
 
         $pdf->SetFont('Arial', 'I', 12);
         $pdf->Cell(0, 10, 'Fecha de Compra: ' . $order['order_date'], 0, 1, 'R');
@@ -359,5 +379,25 @@ class Crud
         $pdf->Output($pdfFilePath, 'F');
 
         return $pdfFilePath;
+    }
+
+    function getCartProducts()
+    {
+        $userId = USER["id"];
+        $query = "SELECT shopping_cart.id, products.name, products.price, products.image, shopping_cart.quantity, shopping_cart.subtotal
+                  FROM shopping_cart
+                  INNER JOIN products ON shopping_cart.product_id = products.id
+                  WHERE shopping_cart.user_id = $userId";
+
+        $result = $this->conn->query($query);
+        $cartProducts = [];
+
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $cartProducts[] = $row;
+            }
+        }
+
+        return $cartProducts;
     }
 }
