@@ -3,9 +3,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-use TCPDF;
 
 require '../vendor/autoload.php';
+require '../fpdf/WriteTag.php';
 class Crud
 {
     public $table;
@@ -209,110 +209,115 @@ class Crud
         $userId = USER["id"];
         $email = USER["email"];
         $name = USER["name"];
-        $cartQuery = "SELECT * FROM shopping_cart WHERE user_id = $userId";
-        $cartResult = $this->conn->query($cartQuery);
-
-        if (!$cartResult) {
-            return ["status" => "BAD", "message" => "Error al obtener el carrito"];
-        }
-
-        $total = 0;
-        while ($cartItem = $cartResult->fetch_assoc()) {
-            $total += $cartItem['subtotal'];
-        }
-
-        $orderInsertQuery = "INSERT INTO orders (user_id, total) VALUES ($userId, $total)";
-        $orderInsertResult = $this->conn->query($orderInsertQuery);
-
-        if (!$orderInsertResult) {
-            return ["status" => "BAD", "message" => "Error al insertar la orden"];
-        }
-
-        $orderId = $this->conn->insert_id;
-
-        $cartResult->data_seek(0);
-        while ($cartItem = $cartResult->fetch_assoc()) {
-            $product_id = $cartItem['product_id'];
-            $quantity = $cartItem['quantity'];
-            $subtotal = $cartItem['subtotal'];
-
-            $orderDetailInsertQuery = "INSERT INTO order_details (order_id, product_id, quantity, subtotal) VALUES ($orderId, $product_id, $quantity, $subtotal)";
-            $orderDetailInsertResult = $this->conn->query($orderDetailInsertQuery);
-
-            if (!$orderDetailInsertResult) {
-                return ["status" => "BAD", "message" => "Error al insertar el detalle de la orden"];
-            }
-        }
-
-        $cartDeleteQuery = "DELETE FROM shopping_cart WHERE user_id = $userId";
-        $cartDeleteResult = $this->conn->query($cartDeleteQuery);
-
-        if (!$cartDeleteResult) {
-            return ["status" => "BAD", "message" => "Error al eliminar el carrito"];
-        }
-
-        $pdfFilePath = $this->generateOrderPDF($orderId);
-
-        if (!$pdfFilePath) {
-            return ["status" => "BAD", "message" => "Error al generar el PDF de la orden"];
-        }
-
-        $mail = new PHPMailer(true);
 
         try {
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'jesus.lopez280402@gmail.com';
-            $mail->Password = 'wkfd ylem jcmv vuao';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
-
-            $mail->setFrom('administrador@ansus.com', 'Ansus');
-            $mail->addAddress($email, $name);
-            $mail->isHTML(true);
-            $mail->Subject = 'Confirmación de Pedido';
-            $mail->Body = 'Gracias por comprar en Ansus.';
-
-            $mail->addAttachment($pdfFilePath, 'Ticket.pdf');
-
-            $mail->send();
-
-            if (file_exists($pdfFilePath)) {
-                unlink($pdfFilePath);
+            $cartQuery = "SELECT * FROM shopping_cart WHERE user_id = $userId";
+            $cartResult = $this->conn->query($cartQuery);
+            if (DEBUG) echo "\n$cartQuery\n";
+            if (!$cartResult) {
+                throw new Exception("Error al obtener el carrito");
             }
 
-            return ["status" => "OK", "message" => "Pedido realizado exitosamente y correo enviado"];
-        } catch (Exception $e) {
-            return ["status" => "BAD", "message" => "Error al enviar el correo: " . $mail->ErrorInfo];
+            $total = 0;
+            while ($cartItem = $cartResult->fetch_assoc()) {
+                $total += $cartItem['subtotal'];
+            }
+
+            $orderInsertQuery = "INSERT INTO orders (user_id, total) VALUES ($userId, $total)";
+            $orderInsertResult = $this->conn->query($orderInsertQuery);
+            if (DEBUG) echo "\n$orderInsertQuery\n";
+            if (!$orderInsertResult) {
+                throw new Exception("Error al insertar la orden");
+            }
+
+            $getOrderIdQuery = "SELECT LAST_INSERT_ID() AS order_id";
+            $getOrderIdResult = $this->conn->query($getOrderIdQuery);
+            if (DEBUG) echo "\n$getOrderIdQuery\n";
+            if (!$getOrderIdResult) {
+                throw new Exception("Error al obtener el order_id");
+            }
+            $orderIdRow = $getOrderIdResult->fetch_assoc();
+            $orderId = $orderIdRow["order_id"];
+
+            $cartResult->data_seek(0);
+            while ($cartItem = $cartResult->fetch_assoc()) {
+                $product_id = $cartItem['product_id'];
+                $quantity = $cartItem['quantity'];
+                $subtotal = $cartItem['subtotal'];
+
+                $orderDetailInsertQuery = "INSERT INTO order_details (oreder_id, product_id, quantity, subtotal) VALUES (14, $product_id, $quantity, $subtotal)";
+                $orderDetailInsertResult = $this->conn->query($orderDetailInsertQuery);
+                if (DEBUG) echo "\n$orderDetailInsertQuery\n";
+                if (!$orderDetailInsertResult) {
+                    throw new Exception("Error al insertar el detalle de la orden");
+                }
+            }
+
+            $cartDeleteQuery = "DELETE FROM shopping_cart WHERE user_id = $userId";
+            $cartDeleteResult = $this->conn->query($cartDeleteQuery);
+            if (DEBUG) echo "\n$cartDeleteQuery\n";
+
+            if (!$cartDeleteResult) {
+                throw new Exception("Error al eliminar el carrito");
+            }
+
+            $pdfFilePath = $this->generateOrderPDF($orderId);
+
+            if (!$pdfFilePath) {
+                throw new Exception("Error al generar el PDF de la orden");
+            }
+
+            $mail = new PHPMailer(true);
+
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'jesus.lopez280402@gmail.com';
+                $mail->Password = 'wkfd ylem jcmv vuao';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+
+                $mail->setFrom('administrador@ansus.com', 'Ansus');
+                $mail->addAddress($email, $name);
+                $mail->isHTML(true);
+                $mail->Subject = 'Confirmación de Pedido';
+                $mail->Body = 'Gracias por comprar en Ansus.';
+
+                $mail->addAttachment($pdfFilePath, 'Ticket.pdf');
+
+                $mail->send();
+
+                if (file_exists($pdfFilePath)) {
+                    unlink($pdfFilePath);
+                }
+
+                return ["status" => "OK", "message" => "Pedido realizado exitosamente y correo enviado"];
+            } catch (Exception $e) {
+                return ["status" => "BAD", "message" => "Error al enviar el correo: " . $mail->ErrorInfo];
+            }
+        } catch (Exception $ex) {
+            return ["status" => "BAD", "message" => $ex->getMessage()];
         }
     }
 
-    
-function generateOrderPDF($orderId)
-{
 
-    $orderQuery = "SELECT * FROM orders WHERE id = $orderId";
-    $orderResult = $this->conn->query($orderQuery);
 
-    if (!$orderResult || $orderResult->num_rows === 0) {
-        return false;
+    function generateOrderPDF($orderId)
+    {
+
+        $orderQuery = "SELECT * FROM orders WHERE id = $orderId";
+        $orderResult = $this->conn->query($orderQuery);
+
+        if (!$orderResult || $orderResult->num_rows === 0) {
+            return false;
+        }
+
+
+
+        $pdfFilePath = 'pdf/' . $orderId . '.pdf';
+
+
+        return $pdfFilePath;
     }
-
-    $orderData = $orderResult->fetch_assoc();
-
-    $pdf = new TCPDF();
-    $pdf->AddPage();
-    $pdf->SetFont('times', 'B', 16);
-    $pdf->Cell(0, 10, 'Detalles de la Orden', 0, 1, 'C');
-    
-    $pdf->Ln(10);
-    $pdf->Cell(0, 10, 'Número de Orden: ' . $orderData['order_number'], 0, 1);
-
-    
-    $pdfFilePath = 'pdf/' . $orderId . '.pdf';
-    $pdf->Output($pdfFilePath, 'F');
-
-    return $pdfFilePath;
-}
 }
