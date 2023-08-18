@@ -92,3 +92,23 @@ table img {
 .delete-button {
     background-color: #e74c3c;
 }
+
+.buttonCart {
+    background-color: #9D8161;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer !important;
+    transition: background-color 0.3s;
+    display: block;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    font-size: x-large;
+}
+
+.buttonCart:hover{
+    cursor: pointer !important;
+    background-color: #7B5037;
+}

@@ -276,6 +276,12 @@ class Crud
                 if (!$orderDetailInsertResult) {
                     throw new Exception("Error al insertar el detalle de la orden");
                 }
+
+                $updateQuantityQuery = "UPDATE products SET stock = stock - $quantity WHERE product_id = $product_id";
+                $updateQuantityResult = $this->conn->query($updateQuantityQuery);
+                if (!$updateQuantityResult) {
+                    throw new Exception("Error al actualizar la cantidad de productos");
+                }
             }
 
             $cartDeleteQuery = "DELETE FROM shopping_cart WHERE user_id = $userId";

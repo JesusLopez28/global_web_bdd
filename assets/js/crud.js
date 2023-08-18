@@ -705,7 +705,7 @@ function displayCartProducts(cartProducts) {
 
     if (cartProducts.length === 0) {
         var noProductFound = document.createElement("h1");
-        noProductFound.textContent = "El carrito está vacío";
+        noProductFound.textContent = "El carrito está vacío...";
         cartContainer.appendChild(noProductFound);
     } else {
         var table = document.createElement("table");
@@ -768,6 +768,7 @@ function displayCartProducts(cartProducts) {
         const orderButton = document.createElement('button');
         orderButton.textContent = 'Pedir';
         orderButton.onclick = order;
+        orderButton.className = 'buttonCart'; 
         document.getElementById('cart').appendChild(orderButton);
         table.appendChild(tbody);
         cartContainer.appendChild(table);
