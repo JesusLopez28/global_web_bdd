@@ -236,23 +236,36 @@ function getRows(object, condition, page, admin = "false") {
             var tableBody = document.querySelector("#table_crud tbody");
             tableBody.innerHTML = "";
 
-            response.forEach(function (value) {
-                var condition = primary_key + " = \\\"" + value[primary_key] + "\\\"";
-                var content_edit_action = '<button class="custom-button edit-button" onclick=\'openFormEditor("' + object + '", "' + primary_key + '", "' + value[primary_key] + '")\'>Editar</button>';
-                var content_trash_action = '<button class="custom-button delete-button" onclick=\'trash("' + object + '", "' + condition + '", this)\'>Borrar</button>';
+            if (response.length === 0) {
+                var noFoundRow = document.createElement("tr");
+                var noFoundCell = document.createElement("td");
+                var noFoundMessage = document.createElement("h1");
 
-                if (object != 'orders') {
-                    var row = "<tr>" + "<td>" + content_edit_action + content_trash_action + "</td>";
-                } else {
-                    var row = "<tr>";
-                }
-                Object.keys(value).forEach(function (key) {
-                    row += "<td>" + value[key] + "</td>";
+                noFoundMessage.textContent = "Ups... No se encontraron registros";
+                noFoundCell.appendChild(noFoundMessage);
+                noFoundRow.appendChild(noFoundCell);
+
+                tableBody.appendChild(noFoundRow);
+            } else {
+
+                response.forEach(function (value) {
+                    var condition = primary_key + " = \\\"" + value[primary_key] + "\\\"";
+                    var content_edit_action = '<button class="custom-button edit-button" onclick=\'openFormEditor("' + object + '", "' + primary_key + '", "' + value[primary_key] + '")\'>Editar</button>';
+                    var content_trash_action = '<button class="custom-button delete-button" onclick=\'trash("' + object + '", "' + condition + '", this)\'>Borrar</button>';
+
+                    if (object != 'orders') {
+                        var row = "<tr>" + "<td>" + content_edit_action + content_trash_action + "</td>";
+                    } else {
+                        var row = "<tr>";
+                    }
+                    Object.keys(value).forEach(function (key) {
+                        row += "<td>" + value[key] + "</td>";
+                    });
+
+                    row += "</tr>";
+                    tableBody.innerHTML += row;
                 });
-
-                row += "</tr>";
-                tableBody.innerHTML += row;
-            });
+            }
         })
         .catch(function (error) {
             console.error('Error fetching rows data:', error);
@@ -395,10 +408,43 @@ function update(object, id_form, condition, value) {
     return false;
 }
 
+var product_object = [];
+
+function getProducts(object, condition = "true") {
+    const url = 'http://127.0.0.1/controllers/redirect.php?endpoint=object.getInfo';
+
+    const requestData = {
+        object: object
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.token
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+
+            for (var i = 0; i < response.data.length; i++) {
+                var element = response.data[i];
+                product_object.push(element.field);
+            }
+
+            displayProducts(object, condition, 0);
+        })
+        .catch(error => {
+            console.error('Error fetching object info:', error);
+        });
+}
+
 function displayProducts(object, condition, page) {
     var where_condition = "";
     if (condition !== "true") {
-        fields_object.forEach(function (field) {
+        product_object.forEach(function (field) {
             if (field !== "id") {
                 where_condition += field + " like '%" + condition + "%' or ";
             }
@@ -433,50 +479,56 @@ function displayProducts(object, condition, page) {
             console.log(response);
             var articlesContainer = document.getElementById("articles");
             articlesContainer.innerHTML = "";
+            if (response.length === 0) {
+                var noProductFound = document.createElement("h1");
+                noProductFound.textContent = "Ups... No se encontró el producto";
+                articlesContainer.appendChild(noProductFound);
+            } else {
 
-            response.forEach(function (value) {
-                var article = document.createElement("div");
-                article.className = "box__article";
+                response.forEach(function (value) {
+                    var article = document.createElement("div");
+                    article.className = "box__article";
 
-                var image = document.createElement("img");
-                image.src = "../assets/images/products/" + value.image;
-                image.alt = value.name;
+                    var image = document.createElement("img");
+                    image.src = "../assets/images/products/" + value.image;
+                    image.alt = value.name;
 
-                var productName = document.createElement("h4");
-                productName.textContent = value.name;
+                    var productName = document.createElement("h4");
+                    productName.textContent = value.name;
 
-                var price = document.createElement("p");
-                price.textContent = "Precio: $" + value.price;
+                    var price = document.createElement("p");
+                    price.textContent = "Precio: $" + value.price;
 
-                var category = document.createElement("p");
-                category.textContent = "ID: " + value.id;
+                    var category = document.createElement("p");
+                    category.textContent = "ID: " + value.id;
 
-                var stock = document.createElement("p");
-                stock.textContent = "Stock: " + value.stock;
+                    var stock = document.createElement("p");
+                    stock.textContent = "Stock: " + value.stock;
 
-                var quantityInput = document.createElement("input");
-                quantityInput.type = "number";
-                quantityInput.min = "1";
-                quantityInput.value = "1";
-                quantityInput.placeholder = "Cantidad";
+                    var quantityInput = document.createElement("input");
+                    quantityInput.type = "number";
+                    quantityInput.min = "1";
+                    quantityInput.value = "1";
+                    quantityInput.placeholder = "Cantidad";
 
-                var addToCartButton = document.createElement("button");
-                addToCartButton.textContent = "Agregar al carrito";
-                addToCartButton.classList.add("button");
-                addToCartButton.onclick = function () {
-                    addToCart(value, quantityInput);
-                };
+                    var addToCartButton = document.createElement("button");
+                    addToCartButton.textContent = "Agregar al carrito";
+                    addToCartButton.classList.add("button");
+                    addToCartButton.onclick = function () {
+                        addToCart(value, quantityInput);
+                    };
 
-                article.appendChild(image);
-                article.appendChild(productName);
-                article.appendChild(price);
-                article.appendChild(category);
-                article.appendChild(stock);
-                article.appendChild(quantityInput);
-                article.appendChild(addToCartButton);
+                    article.appendChild(image);
+                    article.appendChild(productName);
+                    article.appendChild(price);
+                    article.appendChild(category);
+                    article.appendChild(stock);
+                    article.appendChild(quantityInput);
+                    article.appendChild(addToCartButton);
 
-                articlesContainer.appendChild(article);
-            });
+                    articlesContainer.appendChild(article);
+                });
+            }
         })
         .catch(function (error) {
             console.error('Error fetching rows data:', error);
@@ -577,17 +629,17 @@ function order() {
             "data": {}
         })
     })
-    .then(response => response.json())
-    .then(response => {
-        console.log(response);
-        if (response.status == "OK") {
-            window.parent.alertMessage("success", "¡Orden realizada!", response.message);
-        } else {
-            window.parent.alertMessage("error", "¡Lo sentimos!", response.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        window.parent.alertMessage("error", "¡Lo sentimos!", error);
-    });
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            if (response.status == "OK") {
+                window.parent.alertMessage("success", "¡Orden realizada!", response.message);
+            } else {
+                window.parent.alertMessage("error", "¡Lo sentimos!", response.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.parent.alertMessage("error", "¡Lo sentimos!", error);
+        });
 }

@@ -52,7 +52,6 @@
                 <tbody></tbody>
             </table>
         </div>
-
         <div class="pagination_rows"></div>
         <ul class="pagination"></ul>
     </div>
@@ -100,7 +99,7 @@
     <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
-        getCrud("orders");
+        getCrud("orders", "true", "true");
 
         document.addEventListener('DOMContentLoaded', function() {
             var searchButton = document.getElementById('search_button');
@@ -108,7 +107,7 @@
 
             searchButton.addEventListener('click', function() {
                 var inputValue = inputSearch.value;
-                getRows('orders', inputValue, 0);
+                getRows('orders', inputValue, 0, "true");
             });
         });
     </script>

@@ -95,7 +95,17 @@
     <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
-        displayProducts("products", "true", 0);
+        getProducts("products");
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var searchButton = document.getElementById('search_button');
+            var inputSearch = document.getElementById('search');
+
+            searchButton.addEventListener('click', function() {
+                var inputValue = inputSearch.value;
+                displayProducts('products', inputValue, 0);
+            });
+        });
     </script>
 </body>
 

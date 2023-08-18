@@ -31,13 +31,6 @@
                     <img src="../assets/icons/visible.png" alt="" class="icon">
                 </span>
             </div>
-            <label>Repetir Contraseña:</label>
-            <div class="login-password">
-                <input type="password" class="login-input password" name="password" id="repitedPassword" placeholder="Contraseña" required>
-                <span id="showRepitedPasswordButton" onclick="showPassword('repitedPassword', 'showRepitedPasswordButton')">
-                    <img src="../assets/icons/visible.png" alt="" class="icon">
-                </span>
-            </div>
             <button type="submit" class="login-btn">Registrate</button>
             <div class="login-a">
                 <a href="login.php">Login</a>
