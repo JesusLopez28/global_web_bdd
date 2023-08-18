@@ -43,6 +43,7 @@
 
     <main id="main">
         <h1>Carrito</h1>
+        <div id="car"></div>
     </main>
 
     <div class="body__Page">

@@ -713,8 +713,8 @@ function displayCartProducts(cartProducts) {
 
         var thead = document.createElement("thead");
         var headerRow = document.createElement("tr");
-        var thImage = document.createElement("th");  
-        thImage.textContent = "Imagen";               
+        var thImage = document.createElement("th");
+        thImage.textContent = "Imagen";
         var thName = document.createElement("th");
         thName.textContent = "Producto";
         var thQuantity = document.createElement("th");
@@ -724,7 +724,7 @@ function displayCartProducts(cartProducts) {
         var thSubtotal = document.createElement("th");
         thSubtotal.textContent = "Subtotal";
 
-        headerRow.appendChild(thImage);             
+        headerRow.appendChild(thImage);
         headerRow.appendChild(thName);
         headerRow.appendChild(thQuantity);
         headerRow.appendChild(thPrice);
@@ -738,11 +738,11 @@ function displayCartProducts(cartProducts) {
         cartProducts.forEach(function (value) {
             var row = document.createElement("tr");
 
-            var cellImage = document.createElement("td"); 
-            var image = document.createElement("img");   
-            image.src = "../assets/images/products/" + value.image;  
-            image.alt = value.name; 
-            cellImage.appendChild(image); 
+            var cellImage = document.createElement("td");
+            var image = document.createElement("img");
+            image.src = "../assets/images/products/" + value.image;
+            image.alt = value.name;
+            cellImage.appendChild(image);
 
             var cellName = document.createElement("td");
             cellName.textContent = value.name;
@@ -765,6 +765,10 @@ function displayCartProducts(cartProducts) {
             tbody.appendChild(row);
         });
 
+        const orderButton = document.createElement('button');
+        orderButton.textContent = 'Pedir';
+        orderButton.onclick = order;
+        document.getElementById('cart').appendChild(orderButton);
         table.appendChild(tbody);
         cartContainer.appendChild(table);
     }
