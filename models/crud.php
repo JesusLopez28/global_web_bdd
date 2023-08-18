@@ -277,7 +277,7 @@ class Crud
                     throw new Exception("Error al insertar el detalle de la orden");
                 }
 
-                $updateQuantityQuery = "UPDATE products SET stock = stock - $quantity WHERE product_id = $product_id";
+                $updateQuantityQuery = "UPDATE products SET stock = stock - $quantity WHERE id = $product_id";
                 $updateQuantityResult = $this->conn->query($updateQuantityQuery);
                 if (!$updateQuantityResult) {
                     throw new Exception("Error al actualizar la cantidad de productos");
