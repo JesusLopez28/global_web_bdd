@@ -19,7 +19,8 @@ class Connector
 
         if ($conn->connect_error) {
             $this->error = $conn->connect_error;
-            die("Error de conexión: " . $this->error);
+            response(["status" => "BAD", "message" => "Error de conexión: " . $this->error]);
+            die();
         }
 
         $this->conn = $conn;
