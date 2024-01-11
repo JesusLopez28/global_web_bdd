@@ -11,9 +11,9 @@ class Connector
     function __construct()
     {
         $servername = "10.0.0.5";
-        $username = "root";
+        $username = "ansus";
         $dbname = "ansus";
-        $password = "";
+        $password = "1234";
 
         $conn = new mysqli($servername, $username, $password, $dbname);
 
