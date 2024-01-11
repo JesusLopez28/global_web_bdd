@@ -10,16 +10,7 @@ class Connector
 
     function __construct()
     {
-<<<<<<< HEAD
         $servername = "10.0.0.5";
-=======
-        //Cambio ip
-<<<<<<< HEAD
-        $servername = "10.0.0.3";
->>>>>>> a5b312a2123fcd96b4666c4f78e5c6488430fa3a
-=======
-        $servername = "10.0.0.5";
->>>>>>> 736b4193400729878ff4159a96d26266520a9ead
         $username = "root";
         $dbname = "ansus";
         $password = "";
