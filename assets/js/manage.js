@@ -1,7 +1,7 @@
 var token = sessionStorage.token;
 
 if (token) {
-    fetch('http://127.0.0.1/controllers/redirect.php?endpoint=user.getMenu', {
+    fetch('http://10.0.0.3/controllers/redirect.php?endpoint=user.getMenu', {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + token,
