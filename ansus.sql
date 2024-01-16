@@ -18,8 +18,7 @@ CREATE TABLE
         ID INT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID Token',
         user_id INT COMMENT 'ID Usuario',
         token VARCHAR(255) COMMENT 'Token',
-        creation_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha',
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        creation_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha'
     );
 
 CREATE TABLE
@@ -36,8 +35,7 @@ CREATE TABLE
         price DECIMAL(10, 2) COMMENT 'Precio',
         category_id INT COMMENT 'ID Categoria',
         stock INT COMMENT 'Stock',
-        image VARCHAR(255) COMMENT 'Imagen',
-        FOREIGN KEY (category_id) REFERENCES categories(id)
+        image VARCHAR(255) COMMENT 'Imagen'
     );
 
 CREATE TABLE
@@ -46,9 +44,7 @@ CREATE TABLE
         user_id INT COMMENT 'ID Usuario',
         product_id INT COMMENT 'ID Producto',
         quantity INT COMMENT 'Cantidad',
-        subtotal DECIMAL(10, 2) COMMENT 'Subtotal',
-        FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (product_id) REFERENCES products(id)
+        subtotal DECIMAL(10, 2) COMMENT 'Subtotal'
     );
 
 CREATE TABLE
@@ -57,8 +53,7 @@ CREATE TABLE
         user_id INT COMMENT 'ID Usuario',
         order_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha',
         status ENUM('confirmado', 'cancelado') DEFAULT 'confirmado' COMMENT 'Estatus',
-        total DECIMAL(10, 2) COMMENT 'Total',
-        FOREIGN KEY (user_id) REFERENCES users(ID)
+        total DECIMAL(10, 2) COMMENT 'Total'
     );
 
 CREATE TABLE
@@ -67,7 +62,5 @@ CREATE TABLE
         oreder_id INT COMMENT 'ID Pedido',
         product_id INT COMMENT 'ID Producto',
         quantity INT COMMENT 'Cantidad',
-        subtotal DECIMAL(10, 2) COMMENT 'Subtotal',
-        FOREIGN KEY (oreder_id) REFERENCES orders(id),
-        FOREIGN KEY (product_id) REFERENCES products(id)
+        subtotal DECIMAL(10, 2) COMMENT 'Subtotal'
     );
