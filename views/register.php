@@ -42,8 +42,6 @@
     <script src="../assets/js/general.js?x=1"></script>
     <script src="../assets/js/lateral.js"></script>
     <script type="text/javascript">
-        var currentURL = window.location.href;
-
         document.getElementById('register-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -61,7 +59,7 @@
                 body: JSON.stringify(requestData)
             };
 
-            fetch(currentURL + 'controllers/redirect.php?endpoint=user.register', fetchOptions)
+            fetch('http://10.0.0.3/controllers/redirect.php?endpoint=user.register', fetchOptions)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
