@@ -45,7 +45,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-
+    echo "Conexión exitosa.<br><br>";
     echo "ID: " . $row["ID"] . "<br>";
     echo "Name: " . $row["name"] . "<br>";
     echo "Last Name: " . $row["last_name"] . "<br>";
