@@ -7,7 +7,7 @@ class Connector
 
     function __construct()
     {
-        $servername = "localhost";
+        $servername = "10.0.0.5";
         $username = "ansus";
         $dbname = "ansus";
         $password = "1234";
