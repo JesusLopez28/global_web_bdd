@@ -297,7 +297,7 @@ class Crud
             if (!$pdfFilePath) {
                 throw new Exception("Error al generar el PDF de la orden");
             }
-
+            if (DEBUG) echo "4";
             $mail = new PHPMailer(true);
 
             try {
