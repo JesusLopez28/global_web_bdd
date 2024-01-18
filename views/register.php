@@ -59,7 +59,7 @@
                 body: JSON.stringify(requestData)
             };
 
-            fetch('http://10.0.0.3/controllers/redirect.php?endpoint=user.register', fetchOptions)
+            fetch('../controllers/redirect.php?endpoint=user.register', fetchOptions)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);

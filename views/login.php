@@ -55,7 +55,7 @@
                 body: JSON.stringify(requestData)
             };
 
-            fetch('http://10.0.0.3/controllers/redirect.php?endpoint=user.login', fetchOptions)
+            fetch('../controllers/redirect.php?endpoint=user.login', fetchOptions)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
