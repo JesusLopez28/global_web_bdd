@@ -386,7 +386,9 @@ class Crud
         $pdfFilePath = 'order_' . $orderId . '.pdf';
         if (DEBUG) echo "\n$pdfFilePath\n";
 
-        $pdf->Output($pdfFilePath, 'F');
+        if($pdf->Output($pdfFilePath, 'F')){
+            if (DEBUG) echo "SI";
+        }else if (DEBUG) echo "NO";
         if (DEBUG) echo "4";
         return $pdfFilePath;
     }
