@@ -353,7 +353,7 @@ class Crud
         $headerColor = array(100, 100, 100);
         $bgColor = array(230, 230, 230);
         $textColor = array(0, 0, 0);
-
+        if (DEBUG) echo "1";
         $pdf->SetFillColor($headerColor[0], $headerColor[1], $headerColor[2]);
         $pdf->SetTextColor($textColor[0], $textColor[1], $textColor[2]);
 
@@ -361,7 +361,7 @@ class Crud
 
         $pdf->SetFont('Arial', 'B', 20);
         $pdf->Cell(0, 20, 'Ticket de Orden - Ansus', 0, 1, 'C');
-
+        if (DEBUG) echo "2";
         $pdf->Ln(5);
         $pdf->SetFont('Arial', 'B', 14);
         $pdf->SetFillColor($bgColor[0], $bgColor[1], $bgColor[2]);
@@ -375,7 +375,7 @@ class Crud
             $pdf->Cell(40, 10, $row['quantity'], 1, 0, 'C', 0);
             $pdf->Cell(50, 10, '$' . number_format($row['subtotal'], 2, '.', ','), 1, 1, 'R', 0);
         }
-
+        if (DEBUG) echo "3";
         $pdf->SetFont('Arial', 'B', 14);
         $pdf->Cell(100, 10, 'Total', 1, 0, 'C', 1);
         $pdf->Cell(50, 10, '$' . number_format($order['total'], 2, '.', ','), 1, 1, 'R', 0);
@@ -385,7 +385,7 @@ class Crud
 
         $pdfFilePath = 'order_' . $orderId . '.pdf';
         $pdf->Output($pdfFilePath, 'F');
-
+        if (DEBUG) echo "4";
         return $pdfFilePath;
     }
 
