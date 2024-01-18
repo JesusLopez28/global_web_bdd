@@ -195,12 +195,12 @@ class Crud
         }
         $startIndex = ($page) * $rows;
         $sql = "SELECT $fields FROM $table WHERE $where $order LIMIT $startIndex, $rows";
-        if (DEBUG) echo "$sql";
+        if (DEBUG) echo "\n$sql\n";
         #die();
         $result = $this->conn->query($sql);
         if ($result === FALSE) {
             if (DEBUG) {
-                echo "→Error conn: " . $this->conn->error . "";
+                echo "\n\n→Error conn: " . $this->conn->error . "\n\n";
             }
         }
         while ($row = $result->fetch_assoc()) {
@@ -231,14 +231,14 @@ class Crud
         $email = USER["email"];
         $name = USER["name"];
 
-        if (DEBUG) echo "$userId";
-        if (DEBUG) echo "$email";
-        if (DEBUG) echo "$name";
+        if (DEBUG) echo "\n$userId\n";
+        if (DEBUG) echo "\n$email\n";
+        if (DEBUG) echo "\n$name\n";
 
         try {
             $cartQuery = "SELECT * FROM shopping_cart WHERE user_id = $userId";
             $cartResult = $this->conn->query($cartQuery);
-            if (DEBUG) echo "$cartQuery";
+            if (DEBUG) echo "\n$cartQuery\n";
             if (!$cartResult) {
                 throw new Exception("Error al obtener el carrito");
             }
@@ -250,14 +250,14 @@ class Crud
 
             $orderInsertQuery = "INSERT INTO orders (user_id, total) VALUES ($userId, $total)";
             $orderInsertResult = $this->conn->query($orderInsertQuery);
-            if (DEBUG) echo "$orderInsertQuery";
+            if (DEBUG) echo "\n$orderInsertQuery\n";
             if (!$orderInsertResult) {
                 throw new Exception("Error al insertar la orden");
             }
 
             $getOrderIdQuery = "SELECT LAST_INSERT_ID() AS order_id";
             $getOrderIdResult = $this->conn->query($getOrderIdQuery);
-            if (DEBUG) echo "$getOrderIdQuery";
+            if (DEBUG) echo "\n$getOrderIdQuery\n";
             if (!$getOrderIdResult) {
                 throw new Exception("Error al obtener el order_id");
             }
@@ -272,7 +272,7 @@ class Crud
 
                 $orderDetailInsertQuery = "INSERT INTO order_details (oreder_id, product_id, quantity, subtotal) VALUES ($orderId, $product_id, $quantity, $subtotal)";
                 $orderDetailInsertResult = $this->conn->query($orderDetailInsertQuery);
-                if (DEBUG) echo "$orderDetailInsertQuery";
+                if (DEBUG) echo "\n$orderDetailInsertQuery\n";
                 if (!$orderDetailInsertResult) {
                     throw new Exception("Error al insertar el detalle de la orden");
                 }
@@ -286,7 +286,7 @@ class Crud
 
             $cartDeleteQuery = "DELETE FROM shopping_cart WHERE user_id = $userId";
             $cartDeleteResult = $this->conn->query($cartDeleteQuery);
-            if (DEBUG) echo "$cartDeleteQuery";
+            if (DEBUG) echo "\n$cartDeleteQuery\n";
 
             if (!$cartDeleteResult) {
                 throw new Exception("Error al eliminar el carrito");
@@ -345,8 +345,10 @@ class Crud
         $query = "SELECT products.name, order_details.quantity, order_details.subtotal FROM order_details
                   INNER JOIN products ON order_details.product_id = products.id
                   WHERE order_details.oreder_id = $orderId";
-        if (DEBUG) echo "$query";
+        if (DEBUG) echo "\n$query\n";
         $result = $this->conn->query($query);
+        if (DEBUG) print_r($result);
+
 
         $headerColor = array(100, 100, 100);
         $bgColor = array(230, 230, 230);
