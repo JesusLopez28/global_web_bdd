@@ -383,7 +383,7 @@ class Crud
         $pdf->SetFont('Arial', 'I', 12);
         $pdf->Cell(0, 10, 'Fecha de Compra: ' . $order['order_date'], 0, 1, 'R');
 
-        $pdfFilePath = 'order_' . $orderId . '.pdf';
+        $pdfFilePath = 'pdf/order_' . $orderId . '.pdf';
         if (DEBUG) echo "\n$pdfFilePath\n";
 
         if ($pdf->Output($pdfFilePath, 'F')) {
