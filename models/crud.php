@@ -384,6 +384,8 @@ class Crud
         $pdf->Cell(0, 10, 'Fecha de Compra: ' . $order['order_date'], 0, 1, 'R');
 
         $pdfFilePath = 'order_' . $orderId . '.pdf';
+        if (DEBUG) echo "\n$pdfFilePath\n";
+
         $pdf->Output($pdfFilePath, 'F');
         if (DEBUG) echo "4";
         return $pdfFilePath;
