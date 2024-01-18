@@ -27,7 +27,7 @@ function closeModal() {
 function create(object, id_form) {
     const modal = document.getElementById("modal");
     console.log("ENTRO A LA FUNCION CREATE");
-    var url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.create';
+    var url = '../../controllers/redirect.php?endpoint=object.create';
     var form_data = JSON.parse(formJSON(id_form));
 
     if (form_data.image) {
@@ -69,7 +69,7 @@ function create(object, id_form) {
 var fields_object = [];
 
 function getCrud(object, condition = "true", admin = "false") {
-    const url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.getInfo';
+    const url = '../../controllers/redirect.php?endpoint=object.getInfo';
 
     const requestData = {
         object: object
@@ -110,7 +110,7 @@ function getCrud(object, condition = "true", admin = "false") {
 }
 
 function getPagination(object, currentPage = 0) {
-    const url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.count';
+    const url = '../../controllers/redirect.php?endpoint=object.count';
 
     const requestData = {
         object: object,
@@ -219,7 +219,7 @@ function getRows(object, condition, page, admin = "false") {
         "order": "order by id asc"
     };
 
-    fetch('http://10.0.0.3/controllers/redirect.php?endpoint=object.getRows', {
+    fetch('../../controllers/redirect.php?endpoint=object.getRows', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -282,7 +282,7 @@ function trash(object, condition, el) {
                 "where": condition
             };
 
-            fetch('http://10.0.0.3/controllers/redirect.php?endpoint=object.delete', {
+            fetch('../../controllers/redirect.php?endpoint=object.delete', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -325,7 +325,7 @@ function openFormEditor(object, condition, value) {
     modal.style.alignItems = "center";
     modal.style.justifyContent = "center";
 
-    fetch('http://10.0.0.3/controllers/redirect.php?endpoint=object.getRows', {
+    fetch('../../controllers/redirect.php?endpoint=object.getRows', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -381,7 +381,7 @@ function update(object, id_form, condition, value) {
     console.log("---------- REQUEST UPDATE ----------->");
     console.log(data);
 
-    fetch('http://10.0.0.3/controllers/redirect.php?endpoint=object.update', {
+    fetch('../../controllers/redirect.php?endpoint=object.update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -411,7 +411,7 @@ function update(object, id_form, condition, value) {
 var product_object = [];
 
 function getProducts(object, condition = "true") {
-    const url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.getInfo';
+    const url = '../../controllers/redirect.php?endpoint=object.getInfo';
 
     const requestData = {
         object: object
@@ -463,7 +463,7 @@ function displayProducts(object, condition, page) {
         "order": "order by id asc"
     };
 
-    fetch('http://10.0.0.3/controllers/redirect.php?endpoint=object.getRows', {
+    fetch('../../controllers/redirect.php?endpoint=object.getRows', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -568,7 +568,7 @@ function displayProducts(object, condition, page) {
 
 function addToCart(product, quantityInput) {
     console.log("ENTRO A LA FUNCION ADD TO CART");
-    var url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.create';
+    var url = '../../controllers/redirect.php?endpoint=object.create';
 
     var cartData = {
         "object": "shopping_cart",
@@ -608,7 +608,7 @@ function addToCart(product, quantityInput) {
 function updateQuantity(object, id_form) {
     const modal = document.getElementById("modal");
     console.log("ENTRO A LA FUNCION UPDATE QUANTITY");
-    var url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.update';
+    var url = '../../controllers/redirect.php?endpoint=object.update';
 
     var form_data = JSON.parse(formJSON(id_form));
 
@@ -645,7 +645,7 @@ function updateQuantity(object, id_form) {
 }
 
 function order() {
-    const url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.order';
+    const url = '../../controllers/redirect.php?endpoint=object.order';
 
     fetch(url, {
         method: 'POST',
@@ -674,7 +674,7 @@ function order() {
 }
 
 function getCartProducts() {
-    const url = 'http://10.0.0.3/controllers/redirect.php?endpoint=object.getCartProducts';
+    const url = '../../controllers/redirect.php?endpoint=object.getCartProducts';
 
     const requestData = {
         "object": {},
