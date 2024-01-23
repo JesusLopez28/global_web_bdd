@@ -397,6 +397,20 @@ class Crud
             if (DEBUG) echo 'Excepción capturada: ',  $e->getMessage(), "\n";
         }
 
+
+        $webdavUrl = 'http://10.0.0.6/';
+        $credentials = 'chuywebdav:1234';
+
+        $command = "curl --upload-file $pdfFilePath -u $credentials $webdavUrl";
+        exec($command, $output, $exitCode);
+
+        if ($exitCode === 0) {
+            if (DEBUG) echo "PDF enviado correctamente.\n";
+        } else {
+            if (DEBUG) echo "Error al enviar el PDF. Código de salida: $exitCode\n";
+            if (DEBUG) print_r($output);
+        }
+
         return $pdfFilePath;
     }
 
