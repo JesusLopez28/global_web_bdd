@@ -43,7 +43,7 @@
 
     <main id="main">
         <h1>PDF</h1>
-        <div id="car"></div>
+        <iframe src="http://10.0.0.6/" width="800" height="600" frameborder="0" allowfullscreen></iframe>
     </main>
 
     <div class="body__Page">
