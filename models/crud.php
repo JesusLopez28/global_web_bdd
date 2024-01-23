@@ -398,7 +398,7 @@ class Crud
         }
 
 
-        $webdavUrl = 'http://10.0.0.6/';
+        $webdavUrl = 'http://10.0.0.6/orders/';
         $credentials = 'chuywebdav:1234';
 
         $command = "curl --upload-file $pdfFilePath -u $credentials $webdavUrl";
