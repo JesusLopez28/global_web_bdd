@@ -294,6 +294,13 @@ class Crud
 
             $pdfFilePath = $this->generateOrderPDF($orderId);
 
+            $orderUpdate = "UPDATE orders SET pdf_file_path = '$pdfFilePath' WHERE id = $orderId";
+            $orderUpdateResult = $this->conn->query($orderUpdate);
+            if (DEBUG) echo "\n$orderUpdate\n";
+            if (!$orderUpdateResult) {
+                throw new Exception("Error al insertar la orden");
+            }
+
             if (!$pdfFilePath) {
                 throw new Exception("Error al generar el PDF de la orden");
             }
