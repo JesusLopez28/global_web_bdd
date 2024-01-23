@@ -43,7 +43,24 @@
 
     <main id="main">
         <h1>PDF</h1>
-        <iframe src="http://www.chuy.com.mx/" width="800" height="600" frameborder="0" allowfullscreen></iframe>
+        <script>
+            var token = sessionStorage.token;
+
+            if (token) {
+                var iframeUrl = 'http://www.chuy.com.mx/index.php?token=' + token;
+
+                var iframeElement = document.createElement('iframe');
+                iframeElement.src = iframeUrl;
+                iframeElement.width = 800;
+                iframeElement.height = 600;
+                iframeElement.frameBorder = 0;
+                iframeElement.allowfullscreen = true;
+
+                document.getElementById('main').appendChild(iframeElement);
+            } else {
+                console.error('No se encontró el token en sessionStorage.');
+            }
+        </script>
     </main>
 
     <div class="body__Page">
