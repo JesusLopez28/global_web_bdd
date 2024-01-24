@@ -155,6 +155,12 @@ class Crud
         }
 
         array_push($menu, [
+            "img" => "../assets/icons/ansus.png",
+            "text" => "PDF",
+            "location" => "webdav.php",
+        ]);
+
+        array_push($menu, [
             "img" => "../assets/icons/cerrar.png",
             "text" => "Salir",
             "location" => "#",
