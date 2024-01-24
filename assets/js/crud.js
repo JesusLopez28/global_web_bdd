@@ -663,6 +663,7 @@ function order() {
             console.log(response);
             if (response.status == "OK") {
                 window.parent.alertMessage("success", "¡Orden realizada!", response.message);
+                window.location.href = "../../views/webdav.php";
             } else {
                 window.parent.alertMessage("error", "¡Lo sentimos!", response.message);
             }
