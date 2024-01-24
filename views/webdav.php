@@ -48,6 +48,7 @@
 
             if (token) {
                 var iframeUrl = 'http://www.chuy.com.mx/index.php?token=' + token;
+                //iframeUrl = 'http://10.0.0.6/index.php?token=' + token;
 
                 var iframeElement = document.createElement('iframe');
                 iframeElement.src = iframeUrl;
