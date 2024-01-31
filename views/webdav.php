@@ -47,8 +47,8 @@
             var token = sessionStorage.token;
 
             if (token) {
-                var iframeUrl = 'http://www.chuy.com.mx:8080/orders.php?token=' + token;
-                iframeUrl = 'http://192.168.73.44:8080/orders.php?token=' + token;
+                var iframeUrl = 'https://www.chuy.com.mx:8080/orders.php?token=' + token;
+                //iframeUrl = 'https://192.168.73.44:8080/orders.php?token=' + token;
 
                 var iframeElement = document.createElement('iframe');
                 iframeElement.src = iframeUrl;
